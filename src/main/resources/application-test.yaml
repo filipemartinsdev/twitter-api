@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:dev
+    username: dev
+    password: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  flyway:
+    enabled: true

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: twitter-api
+
+  profiles:
+    active: prod
