@@ -1,5 +1,6 @@
 package com.api.twitter.user.domain;
 
+import com.api.twitter.common.model.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,4 +34,7 @@ public class User {
 
     @Column(name = "tweets_count")
     private Long tweetsCount;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
