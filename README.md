@@ -65,17 +65,17 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 
 ## To do list
 
-- [ ] Autenticação
-  - [ ] Login/Register
-  - [ ] Token JWT
-  - [ ] User roles
-- [ ] Database Migrations
+- [x] Autenticação
+  - [x] Login/Register
+  - [x] Token JWT
+  - [x] User roles
+- [x] Database Migrations
 - [ ] Testes unitários
 - [ ] Documentação
   - [ ] API
   - [ ] Projeto
 - [ ] Cache (Redis)
-- [ ] Imagem Docker
-- [ ] Container configs (Docker compose)
+- [x] Imagem Docker
+- [x] Container configs (Docker compose)
 - [ ] Deploy (Railway/Render)
 
