@@ -16,11 +16,15 @@ public record ApiResponse<T> (
         return new ApiResponse<>("fail", null, message);
     }
 
+    public static <T> ApiResponse<T> fail(T data){
+        return new ApiResponse<>("fail", data, null);
+    }
+
     public static ApiResponse<Void> error(String message){
-        return new ApiResponse<>("success", null, message);
+        return new ApiResponse<>("error", null, message);
     }
 
     public static ApiResponse<Void> error(){
-        return new ApiResponse<>("success", null, null);
+        return new ApiResponse<>("error", null, null);
     }
 }
