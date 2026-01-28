@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/v2/auth/login").permitAll()
                         .requestMatchers("/api/v2/auth/register").permitAll()
                         .anyRequest().authenticated()
