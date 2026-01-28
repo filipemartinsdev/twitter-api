@@ -1,4 +1,4 @@
-package com.api.twitter.security.domain;
+package com.api.twitter.security.domain.model;
 
 import com.api.twitter.common.model.UserRole;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
+    private UUID id;
     private String username;
     private String password;
     private UserRole role;

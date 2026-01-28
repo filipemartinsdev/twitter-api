@@ -1,6 +1,8 @@
 package com.api.twitter.security.application.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public record UserLoginRequest (
-        String username,
-        String password
+        @NotEmpty String username,
+        @NotEmpty String password
 ){}
