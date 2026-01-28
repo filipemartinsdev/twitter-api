@@ -4,3 +4,9 @@ spring:
 
   profiles:
     active: prod
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:secret}
+      issuer: ${JWT_ISSUER:issuer}
