@@ -9,6 +9,18 @@ public record ApiResponse<T> (
         String message
 ){
     public static ApiResponse<Void> success(){
-        return new ApiResponse<Void>("success", null, null);
+        return new ApiResponse<>("success", null, null);
+    }
+
+    public static ApiResponse<Void> fail(String message){
+        return new ApiResponse<>("fail", null, message);
+    }
+
+    public static ApiResponse<Void> error(String message){
+        return new ApiResponse<>("success", null, message);
+    }
+
+    public static ApiResponse<Void> error(){
+        return new ApiResponse<>("success", null, null);
     }
 }
