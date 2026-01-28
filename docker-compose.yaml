@@ -4,14 +4,16 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - JWT_ISSUER
-      - JWT_SECRET
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_ISSUER=${JWT_ISSUER}
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_DATABASE}
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
