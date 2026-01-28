@@ -44,11 +44,6 @@ public class UserService {
     }
 
     public String loginUserAndGetToken(UserLoginRequest userLoginRequest){
-        if (!verifyUserUseCase.existsByUsername(userLoginRequest.username())){
-            throw new NotFoundException("User not exists");
-        }
-//        var auth = authenticationService.authenticateUser(userLoginRequest.username(), userLoginRequest.password());
-
         var userPassToken = new UsernamePasswordAuthenticationToken(userLoginRequest.username(), userLoginRequest.password());
         var auth = authenticationManager.authenticate(userPassToken);
         SecurityContextHolder.getContext().setAuthentication(auth);

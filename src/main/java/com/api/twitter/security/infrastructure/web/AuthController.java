@@ -5,6 +5,7 @@ import com.api.twitter.security.application.dto.UserRegisterRequest;
 import com.api.twitter.security.domain.service.UserService;
 import com.api.twitter.security.infrastructure.TokenService;
 import com.api.twitter.user.application.usecases.VerifyUserUseCase;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest){
+    public ResponseEntity<String> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
         String token = userService.loginUserAndGetToken(userLoginRequest);
 
         return ResponseEntity
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody UserRegisterRequest userRegisterRequest){
+    public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest){
         userService.registerUser(userRegisterRequest);
 
         return ResponseEntity
