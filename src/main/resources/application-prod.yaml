@@ -6,3 +6,9 @@ spring:
       ddl-auto: none
   flyway:
     enabled: true
+  cache:
+    type: REDIS
+  data:
+    redis:
+      port: 6379
+      password: ${REDIS_PASSWORD}
