@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -37,5 +38,11 @@ public class ListUsersUseCase {
                 .map(user -> userMapper.toResponse(user))
                 .toList();
 
+    }
+
+    public List<UserResponse> query(String query) {
+        return userRepository.findAllByUsernameContainingIgnoreCase(query).stream()
+                .map(user -> userMapper.toResponse(user))
+                .toList();
     }
 }
