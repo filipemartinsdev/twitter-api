@@ -74,7 +74,7 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 - [ ] Documentação
   - [ ] API
   - [ ] Projeto
-- [ ] Cache (Redis)
+- [x] Cache (Redis)
 - [x] Imagem Docker
 - [x] Container configs (Docker compose)
 - [ ] Deploy (Railway/Render)
