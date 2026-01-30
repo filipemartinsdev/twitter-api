@@ -1,6 +1,7 @@
 package com.api.twitter.user.infrastructure.web;
 
 import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.usecases.ListUsersUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.UUID;
 public class ListUsersController {
     @Autowired
     private ListUsersUseCase listUsersUseCase;
+
+    @Autowired
+    private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers(
@@ -45,6 +49,17 @@ public class ListUsersController {
                 .status(HttpStatus.OK)
                 .body(
                         ApiResponse.success(listUsersUseCase.getById(id))
+                );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<UserResponse>> getAuthenticatedUser(){
+        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        ApiResponse.success(listUsersUseCase.getById(authenticatedUserId))
                 );
     }
 }
