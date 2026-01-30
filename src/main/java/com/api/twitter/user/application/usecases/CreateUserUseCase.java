@@ -4,6 +4,7 @@ import com.api.twitter.common.model.UserRole;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,6 +12,7 @@ public class CreateUserUseCase {
     @Autowired
     private UserRepository userRepository;
 
+    @CacheEvict(value = "userPages", allEntries = true)
     public void execute(String username, String email, String encryptedPassword){
         User user = new User();
         user.setUsername(username);

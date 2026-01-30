@@ -1,6 +1,7 @@
 package com.api.twitter.user.infrastructure.web;
 
 import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.usecases.ListUsersUseCase;
@@ -24,22 +25,23 @@ public class ListUsersController {
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers(
-            @RequestParam(value = "q") Optional<String> query
+    public ResponseEntity<ApiResponse<PagedResponse<UserResponse>>> getAllUsers(
+            @RequestParam(value = "q") Optional<String> query,
+            Pageable pageable
     ){
-        List<UserResponse> userList;
+        PagedResponse<UserResponse> pagedUserResponse;
 
         if(query.isPresent()){
-            userList = listUsersUseCase.query(query.get());
+            pagedUserResponse = listUsersUseCase.query(query.get(), pageable);
         }
         else {
-            userList = listUsersUseCase.getAll();
+            pagedUserResponse = listUsersUseCase.getAll(pageable);
         }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
-                        ApiResponse.success(userList)
+                        ApiResponse.success(pagedUserResponse)
                 );
     }
 

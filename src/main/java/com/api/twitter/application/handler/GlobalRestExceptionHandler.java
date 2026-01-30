@@ -42,14 +42,14 @@ public class GlobalRestExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> runtimeErrorHandler(RuntimeException exception){
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error());
+                .body(ApiResponse.error(exception.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> genericErrorHandler(Exception exception){
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error());
+                .body(ApiResponse.error(exception.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
