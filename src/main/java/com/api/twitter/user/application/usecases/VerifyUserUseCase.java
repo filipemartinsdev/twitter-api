@@ -24,6 +24,7 @@ public class VerifyUserUseCase {
         return this.userRepository.existsByEmail(email);
     }
 
+    @Deprecated
     public void verifyIfUsernameAndEmailIsAlreadyInUse(String username, String email){
         if (userRepository.existsByUsername(username)){
             throw new BadRequestException("This username is already in use");
