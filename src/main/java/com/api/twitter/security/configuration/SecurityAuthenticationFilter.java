@@ -29,7 +29,7 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
         if (token != null){
             String username = tokenService.validateTokenAndGetUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            var userPassToken = new UsernamePasswordAuthenticationToken(userDetails, null);
+            var userPassToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userPassToken);
         }
         filterChain.doFilter(request, response);
@@ -40,6 +40,7 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
         if(authHeader == null){
             return null;
         }
-        return authHeader.trim().replace("Bearer ", "");
+        String tokenWithoutPrefix = authHeader.replace("Bearer ", "");
+        return tokenWithoutPrefix;
     }
 }
