@@ -4,6 +4,7 @@ import com.api.twitter.common.dto.ApiResponse;
 import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.InternalServerErrorException;
 import com.api.twitter.common.exception.NotFoundException;
+import com.api.twitter.common.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -70,5 +71,12 @@ public class GlobalRestExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.fail("Invalid username or password"));
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiResponse<Void>> unauthorizedHandler(UnauthorizedException exception){
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.fail(exception.getMessage()));
     }
 }
