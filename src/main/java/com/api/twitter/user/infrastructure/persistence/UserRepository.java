@@ -2,6 +2,8 @@ package com.api.twitter.user.infrastructure.persistence;
 
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +21,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
      boolean existsByEmail(String username);
 
-     List<User> findAllByUsernameContainingIgnoreCase(String query);
+     Page<User> findAllByUsernameContainingIgnoreCase(String query, Pageable pageable);
 }

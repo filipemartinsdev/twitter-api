@@ -1,14 +1,17 @@
 package com.api.twitter.user.application.usecases;
 
+import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.mappers.UserMapper;
+import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -33,16 +36,13 @@ public class ListUsersUseCase {
         );
     }
 
-    public List<UserResponse> getAll() {
-        return userRepository.findAll().stream()
-                .map(user -> userMapper.toResponse(user))
-                .toList();
-
+    public PagedResponse<UserResponse> getAll(Pageable pageable) {
+        Page<User> userPage =  userRepository.findAll(pageable);
+        return userMapper.toPagedUserResponse(userPage);
     }
 
-    public List<UserResponse> query(String query) {
-        return userRepository.findAllByUsernameContainingIgnoreCase(query).stream()
-                .map(user -> userMapper.toResponse(user))
-                .toList();
+    public PagedResponse<UserResponse> query(String query, Pageable pageable) {
+        Page<User> userPage = userRepository.findAllByUsernameContainingIgnoreCase(query, pageable);
+        return userMapper.toPagedUserResponse(userPage);
     }
 }
