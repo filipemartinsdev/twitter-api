@@ -63,6 +63,27 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
     docker compose up -d --build
     ````
 
+## Endpoints
+
+- POST `/api/v2/auth/register`
+    ````JSON
+    {
+      "username": "your_name",
+      "email": "your_email@gmail.com",
+      "password": "your_password"
+    } 
+    ````
+- POST `/api/v2/auth/login`
+    ````JSON
+    {
+      "username": "your_username",
+      "password": "your_password"
+    }
+    ````
+- GET `/api/v2/users`
+- GET `/api/v2/users/{id}` 
+- GET `/api/v2/users/me` 
+
 ## To do list
 
 - [x] Autenticação
