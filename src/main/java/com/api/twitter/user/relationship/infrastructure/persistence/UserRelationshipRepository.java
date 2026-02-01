@@ -23,4 +23,15 @@ public interface UserRelationshipRepository extends JpaRepository<UserRelationsh
             "WHERE ur.follower.id = :id"
     )
     Page<User> findAllFollowingOfUser(@Param("id") UUID id, Pageable pageable);
+
+    @Query(
+            "DELETE FROM UserRelationship ur "+
+            "WHERE ur.follower.id = :id "+
+            "OR ur.following.id = :id"
+    )
+    void deleteAllByUserId(@Param("id") UUID id);
+
+    void deleteByFollowerIdAndFollowingId(UUID followerId, UUID followingId);
+
+    boolean existsByFollowerIdAndFollowingId(UUID followerId, UUID followingId);
 }
