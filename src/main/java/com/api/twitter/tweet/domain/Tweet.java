@@ -19,6 +19,7 @@ public class Tweet {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "parent_id")
     private UUID parentId;
 
     @ManyToOne
@@ -36,4 +37,16 @@ public class Tweet {
 
     @NotNull
     private LocalDateTime createdAt;
+
+    public static Tweet newDefault(){
+        return new Tweet(
+                null,
+                null,
+                null,
+                null,
+                0L,
+                0L,
+                LocalDateTime.now()
+        );
+    }
 }
