@@ -10,3 +10,4 @@ api:
     token:
       secret: ${JWT_SECRET:secret}
       issuer: ${JWT_ISSUER:issuer}
+      expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
