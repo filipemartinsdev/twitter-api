@@ -43,6 +43,7 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
     ````dotenv
     JWT_SECRET=<YOUR_SECRET>
     JWT_ISSUER=<YOUR_ISSUER>
+    JWT_EXPIRATION_SECONDS=<YOUR_EXPIRATION_SECONDS>
     
     DB_USERNAME=<YOUR_USERNAME>
     DB_PASSWORD=<YOUR_PASSWORD>
@@ -65,7 +66,7 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 
 ## Endpoints
 
-- POST `/api/v2/auth/register`
+- POST `/api/v2/auth/register` <p>
     ````JSON
     {
       "username": "your_name",
@@ -73,16 +74,19 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
       "password": "your_password"
     } 
     ````
-- POST `/api/v2/auth/login`
+- POST `/api/v2/auth/login` <p>
     ````JSON
     {
       "username": "your_username",
       "password": "your_password"
     }
     ````
-- GET `/api/v2/users`
-- GET `/api/v2/users/{id}` 
-- GET `/api/v2/users/me` 
+- GET `/api/v2/users` <p>
+- GET `/api/v2/users/me` <p>
+- GET `/api/v2/users/{id}` <p> 
+- GET `/api/v2/users/{id}/followers` <p>
+- GET `/api/v2/users/{id}/following` <p>
+- POST `/api/v2/users/{id}/followers` <p>
 
 ## To do list
 
