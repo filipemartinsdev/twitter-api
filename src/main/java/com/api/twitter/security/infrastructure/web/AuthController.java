@@ -1,5 +1,7 @@
 package com.api.twitter.security.infrastructure.web;
 
+import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.dto.UserRegisterRequest;
 import com.api.twitter.security.domain.service.UserService;
@@ -31,12 +33,12 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
-        String token = userService.loginUserAndGetToken(userLoginRequest);
+    public ResponseEntity<ApiResponse<TokenResponse>> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+        TokenResponse tokenResponse = userService.loginUserAndGetToken(userLoginRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(token);
+                .body(ApiResponse.success(tokenResponse));
     }
 
     @PostMapping("/register")

@@ -1,6 +1,7 @@
 package com.api.twitter.security.domain.service;
 
 import com.api.twitter.common.exception.NotFoundException;
+import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.dto.UserRegisterRequest;
 import com.api.twitter.security.infrastructure.TokenService;
@@ -39,11 +40,12 @@ public class UserService {
         );
     }
 
-    public String loginUserAndGetToken(UserLoginRequest userLoginRequest){
+    public TokenResponse loginUserAndGetToken(UserLoginRequest userLoginRequest){
         var userPassToken = new UsernamePasswordAuthenticationToken(userLoginRequest.username(), userLoginRequest.password());
         var auth = authenticationManager.authenticate(userPassToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return tokenService.generateToken(userLoginRequest);
+        String token = tokenService.generateToken(userLoginRequest);
+        return new TokenResponse(token, tokenService.getTokenType(), tokenService.getExpirationOnSeconds());
     }
 }

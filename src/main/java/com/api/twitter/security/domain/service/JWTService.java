@@ -1,13 +1,19 @@
 package com.api.twitter.security.domain.service;
 
+import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.InternalServerErrorException;
+import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
+import com.api.twitter.security.application.exception.ExpiredTokenException;
+import com.api.twitter.security.application.exception.InvalidTokenException;
 import com.api.twitter.security.infrastructure.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +28,13 @@ public class JWTService implements TokenService {
 
     @Value(value = "${api.security.token.issuer}")
     private String issuer;
+
+    @Getter
+    @Value(value = "${api.security.token.expiration-seconds}")
+    private Integer expirationOnSeconds;
+
+    @Getter
+    private final String tokenType = "Bearer";
 
     @Override
     public String generateToken(UserLoginRequest userLoginRequest) {
@@ -39,7 +52,7 @@ public class JWTService implements TokenService {
     }
 
     private Instant getExpireTime(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusSeconds(expirationOnSeconds).toInstant(ZoneOffset.of("-03:00"));
     }
 
     @Override
@@ -53,8 +66,12 @@ public class JWTService implements TokenService {
 
             String username = verifier.verify(token).getSubject();
             return username;
-        } catch (JWTVerificationException exception){
-            throw new InternalServerErrorException("Error verifying token", exception);
+        }
+        catch (TokenExpiredException exception){
+            throw new ExpiredTokenException("Token is expired");
+        }
+        catch (RuntimeException exception){
+            throw new InvalidTokenException("Invalid token");
         }
     }
 }
