@@ -38,6 +38,22 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    public void incrementFollowersCount(){
+        this.followersCount++;
+    }
+
+    public void decrementFollowersCount(){
+        this.followersCount--;
+    }
+
+    public void incrementFollowingCount(){
+        this.followingCount++;
+    }
+
+    public void decrementFollowingCount(){
+        this.followingCount--;
+    }
+
     // TODO: IMPROVE VALIDATION RESPONSE
     public void validateUsername(){
         final int MIN_LEN_USERNAME = 3;

@@ -9,4 +9,8 @@ public interface TokenService {
     public String generateToken(UserLoginRequest userLoginRequest);
 
     public String validateTokenAndGetUsername(String token);
+
+    public String getTokenType();
+
+    public Integer getExpirationOnSeconds();
 }
