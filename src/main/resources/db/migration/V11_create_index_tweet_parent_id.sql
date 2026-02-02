@@ -1,0 +1,1 @@
+CREATE INDEX ON tweet (parent_id);
