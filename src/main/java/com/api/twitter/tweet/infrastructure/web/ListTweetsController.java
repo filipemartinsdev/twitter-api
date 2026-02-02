@@ -21,6 +21,15 @@ public class ListTweetsController {
     @Autowired
     private ListTweetsUseCase listTweetsUseCase;
 
+    @GetMapping("/tweets/{tweetId}")
+    private ResponseEntity<ApiResponse<TweetResponse>> getTweetById(@PathVariable UUID tweetId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(
+                        listTweetsUseCase.getById(tweetId)
+                ));
+    }
+
     @GetMapping("/tweets")
     private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllTweets(Pageable pageable){
         return ResponseEntity
@@ -30,12 +39,12 @@ public class ListTweetsController {
                 ));
     }
 
-    @GetMapping("/tweets/{id}/comments")
-    private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllCommentsOfTweet(UUID id, Pageable pageable){
+    @GetMapping("/tweets/{tweetId}/comments")
+    private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllCommentsOfTweet(@PathVariable UUID tweetId, Pageable pageable){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(
-                        listTweetsUseCase.listAllCommentsByTweetId(id, pageable)
+                        listTweetsUseCase.listAllCommentsByTweetId(tweetId, pageable)
                 ));
     }
 
@@ -44,7 +53,7 @@ public class ListTweetsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(
-                        listTweetsUseCase.listAll(pageable)
+                        listTweetsUseCase.listAllTweetsByUserId(userId, pageable)
                 ));
     }
 }

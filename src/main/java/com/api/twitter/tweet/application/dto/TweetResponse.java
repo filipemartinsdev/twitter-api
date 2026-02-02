@@ -10,6 +10,7 @@ public record TweetResponse (
         UUID parentId,
         String content,
         LocalDateTime createdAt,
+        Long viewsCount,
         Long likesCount,
         Long commentsCount,
         TweetUserResponse user

@@ -13,6 +13,7 @@ public class TweetMapper {
                 tweet.getParentId(),
                 tweet.getContent(),
                 tweet.getCreatedAt(),
+                tweet.getViewsCount(),
                 tweet.getLikesCount(),
                 tweet.getCommentsCount(),
                 new TweetUserResponse(

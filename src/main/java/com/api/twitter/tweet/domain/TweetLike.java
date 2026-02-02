@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity @Table(name = "tweet_like")
 @AllArgsConstructor @NoArgsConstructor
@@ -17,4 +18,8 @@ public class TweetLike {
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
+
+
+    @Column(name = "tweet_owner_id")
+    private UUID tweetOwnerId;
 }

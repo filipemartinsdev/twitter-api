@@ -4,8 +4,10 @@ import com.api.twitter.tweet.domain.Tweet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -24,6 +26,4 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
             "WHERE t.parentId is null"
     )
     Page<Tweet> findAllTweets(Pageable pageable);
-
-    void deleteAllByUserId(UUID userId);
 }

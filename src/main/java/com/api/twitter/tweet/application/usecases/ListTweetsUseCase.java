@@ -1,6 +1,7 @@
 package com.api.twitter.tweet.application.usecases;
 
 import com.api.twitter.common.dto.PagedResponse;
+import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 import com.api.twitter.tweet.application.mappers.TweetMapper;
 import com.api.twitter.tweet.domain.Tweet;
@@ -20,6 +21,13 @@ public class ListTweetsUseCase {
 
     @Autowired
     private TweetMapper tweetMapper;
+
+    public TweetResponse getById(UUID tweetId){
+        return tweetMapper.toResponse(
+                tweetRepository.findById(tweetId)
+                        .orElseThrow(() -> new NotFoundException("Tweet not found"))
+        );
+    }
 
     public PagedResponse<TweetResponse> listAll(Pageable pageable) {
         Page<Tweet> page = tweetRepository.findAllTweets(pageable);
