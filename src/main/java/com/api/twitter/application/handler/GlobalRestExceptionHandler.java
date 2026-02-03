@@ -5,6 +5,7 @@ import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.InternalServerErrorException;
 import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.common.exception.UnauthorizedException;
+import com.api.twitter.security.application.exception.ExpiredTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -78,5 +79,12 @@ public class GlobalRestExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.fail(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<ApiResponse<Void>> ExpiredTokenHandler(ExpiredTokenException exception){
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.fail("Token is expired"));
     }
 }

@@ -2,7 +2,6 @@ package com.api.twitter.user.relationship.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.NotFoundException;
-import com.api.twitter.user.application.domainevent.events.DeleteFollowEvent;
 import com.api.twitter.user.application.usecases.VerifyUserUseCase;
 import com.api.twitter.user.relationship.infrastructure.persistence.UserRelationshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,5 @@ public class UnfollowUserUseCase {
             throw new NotFoundException("User not found");
         }
         userRelationshipRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
-
-        applicationEventPublisher.publishEvent(new DeleteFollowEvent(followerId, followingId, this));
     }
 }

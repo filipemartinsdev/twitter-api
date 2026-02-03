@@ -15,7 +15,10 @@ public class GetUserForAuthUseCase {
 
     public UserDetails execute(String username){
         User user =  this.userRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElse(null);
+        if (user == null)
+            return null;
+
 
         var userDetailsImpl = new UserDetailsImpl();
         userDetailsImpl.setId(user.getId());
@@ -25,5 +28,4 @@ public class GetUserForAuthUseCase {
 
         return userDetailsImpl;
     }
-
 }
