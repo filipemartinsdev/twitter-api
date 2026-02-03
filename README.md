@@ -13,10 +13,9 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 - JWT
 - JUnit
 - Mockito
+- SQL
 - Flyway
-- PostgreSQL
-- H2 Database
-- Redis
+- PostgreSQL / H2 Database / Redis
 - Docker/Docker compose
 
 ## Features
