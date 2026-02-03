@@ -72,6 +72,12 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
     ````
 
 ## Endpoints
+Endpoints de listagem permitem a passagem de parâmetros de paginação:
+- **page**=int
+- **size**=int
+- **sort**=attribute
+
+---
 
 - POST `/api/v2/auth/register` <p>
     ````JSON
@@ -88,12 +94,26 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
       "password": "your_password"
     }
     ````
-- GET `/api/v2/users` <p>
+- DELETE `/api/v2/users/me` <p>
+- GET `/api/v2/users?q=<username>` <p>
 - GET `/api/v2/users/me` <p>
-- GET `/api/v2/users/{id}` <p> 
+- GET `/api/v2/users/{id}` <p>
+- GET `/api/v2/users/{id}/tweets` <p>
 - GET `/api/v2/users/{id}/followers` <p>
 - GET `/api/v2/users/{id}/following` <p>
 - POST `/api/v2/users/{id}/followers` <p>
+- DELETE `/api/v2/users/{id}/followers` <p>
+- GET `/api/v2/tweets` <p>
+- POST `/api/v2/tweets` <p>
+    ````JSON
+    {
+      "content": "YOUR TEXT",
+      "parentId": <OPTIONAL>
+    }
+    ````
+- DELETE `/api/v2/tweets/{id}` <p>
+- POST `/api/v2/tweets/{id}/likes` <p>
+- DELETE `/api/v2/tweets/{id}/likes` <p>
 
 ## To do list
 
