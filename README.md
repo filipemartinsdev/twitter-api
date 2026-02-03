@@ -19,6 +19,14 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 - Redis
 - Docker/Docker compose
 
+## Features
+
+- [x] Autenticação
+- [x] Gerenciamento de usuários
+- [x] Seguir usuários
+- [ ] Criar tweets
+- [ ] Interagir com tweets (comentário/like)
+
 ## Ferramentas para executar
 
 - Java 17

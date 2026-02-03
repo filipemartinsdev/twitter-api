@@ -13,6 +13,18 @@ import java.util.UUID;
 
 public interface UserRelationshipRepository extends JpaRepository<UserRelationship, UserRelationshipId> {
     @Query(
+            "SELECT COUNT(ur) FROM UserRelationship ur "+
+            "WHERE ur.following.id = :userId"
+    )
+    long getFollowersCountOfUser(@Param("userId") UUID userId);
+
+    @Query(
+            "SELECT COUNT(ur) FROM UserRelationship ur "+
+            "WHERE ur.follower.id = :userId"
+    )
+    long getFollowingCountOfUser(@Param("userId") UUID userId);
+
+    @Query(
             "SELECT ur.follower FROM UserRelationship ur "+
             "WHERE ur.following.id = :id"
     )

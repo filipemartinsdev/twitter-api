@@ -26,33 +26,8 @@ public class User {
     @NotEmpty
     private String password;
 
-    @Column(name = "followers_count")
-    private Long followersCount;
-
-    @Column(name = "following_count")
-    private Long followingCount;
-
-    @Column(name = "tweets_count")
-    private Long tweetsCount;
-
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    public void incrementFollowersCount(){
-        this.followersCount++;
-    }
-
-    public void decrementFollowersCount(){
-        this.followersCount--;
-    }
-
-    public void incrementFollowingCount(){
-        this.followingCount++;
-    }
-
-    public void decrementFollowingCount(){
-        this.followingCount--;
-    }
 
     // TODO: IMPROVE VALIDATION RESPONSE
     public void validateUsername(){

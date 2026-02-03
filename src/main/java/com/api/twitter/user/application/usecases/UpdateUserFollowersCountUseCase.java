@@ -9,35 +9,40 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
+@Deprecated
 public class UpdateUserFollowersCountUseCase {
     @Autowired
     private UserRepository userRepository;
 
+    @Deprecated
     public void incrementFollowersOfUser(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        user.incrementFollowersCount();
+//        user.incrementFollowersCount();
         userRepository.save(user);
     }
 
+    @Deprecated
     public void decrementFollowersOfUser(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        user.decrementFollowersCount();
+//        user.decrementFollowersCount();
         userRepository.save(user);
     }
 
+    @Deprecated
     public void incrementFollowingOfUser(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        user.incrementFollowingCount();
+//        user.incrementFollowingCount();
         userRepository.save(user);
     }
 
+    @Deprecated
     public void decrementFollowingOfUser(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        user.decrementFollowingCount();
+//        user.decrementFollowingCount();
         userRepository.save(user);
     }
 }

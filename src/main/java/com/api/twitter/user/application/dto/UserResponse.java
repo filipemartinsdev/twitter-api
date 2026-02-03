@@ -5,11 +5,11 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record UserResponse(
-        UUID id,
-        String username,
-        String email,
-        Long followersCount,
-        Long followingCount,
-        Long tweetsCount
-) {}
+public record UserResponse (
+    UUID id,
+    String username,
+    String email,
+    Long tweetsCount,
+    Long followersCount,
+    Long followingCount
+){}

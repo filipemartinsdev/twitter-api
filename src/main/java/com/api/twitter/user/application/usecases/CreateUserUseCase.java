@@ -28,9 +28,6 @@ public class CreateUserUseCase {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(encryptedPassword);
-        user.setFollowersCount(0L);
-        user.setFollowingCount(0L);
-        user.setTweetsCount(0L);
         user.setRole(UserRole.USER);
 
         userRepository.save(user);

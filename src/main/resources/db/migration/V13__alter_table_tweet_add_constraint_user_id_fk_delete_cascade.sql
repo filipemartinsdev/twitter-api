@@ -1,0 +1,7 @@
+ALTER TABLE tweet
+DROP CONSTRAINT IF EXISTS tweet_user_id_fkey;
+
+ALTER TABLE tweet
+ADD CONSTRAINT tweet_user_id_fkey
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;

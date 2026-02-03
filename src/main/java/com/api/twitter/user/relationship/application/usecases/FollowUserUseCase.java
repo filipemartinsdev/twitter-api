@@ -1,11 +1,9 @@
 package com.api.twitter.user.relationship.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
-import com.api.twitter.user.application.domainevent.events.CreateFollowEvent;
 import com.api.twitter.user.application.usecases.GetUserEntityStrictUseCase;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.relationship.domain.UserRelationship;
-import com.api.twitter.user.relationship.domain.UserRelationshipId;
 import com.api.twitter.user.relationship.infrastructure.persistence.UserRelationshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,8 +37,6 @@ public class FollowUserUseCase {
 
         var userRelationship = new UserRelationship(follower, following, getNow());
         userRelationshipRepository.save(userRelationship);
-
-        applicationEventPublisher.publishEvent(new CreateFollowEvent(followerId, followingId, this));
     }
 
     private LocalDateTime getNow(){
