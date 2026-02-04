@@ -60,4 +60,8 @@ public class User {
             throw new UserValidationException("Invalid password");
         }
     }
+
+    public boolean equals(User user2){
+        return this.id.compareTo(user2.getId()) == 0;
+    }
 }
