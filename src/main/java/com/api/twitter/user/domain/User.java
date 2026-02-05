@@ -43,7 +43,7 @@ public class User {
         }
     }
 
-    private void validateEmail(){
+    public void validateEmail(){
         // TODO
     }
 
