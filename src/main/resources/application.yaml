@@ -5,6 +5,11 @@ spring:
   profiles:
     active: prod
 
+  data:
+    web:
+      pageable:
+        max-page-size: 50
+
 api:
   security:
     token:
