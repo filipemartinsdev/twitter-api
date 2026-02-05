@@ -1,5 +1,6 @@
 package com.api.twitter.user.application.usecases;
 
+import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.model.UserRole;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.dto.UserRegisterRequest;
@@ -18,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @ActiveProfiles("test")
@@ -26,7 +28,6 @@ class CreateUserUseCaseTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    @Autowired
     private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
@@ -62,6 +63,8 @@ class CreateUserUseCaseTest {
     @DisplayName("Should create the user if its OK")
     public void executeTestCase1(){
         Mockito.when(userRepository.save(any())).thenReturn(mockedUser1);
+        Mockito.when(userRepository.existsByUsername(any())).thenReturn(false);
+        Mockito.when(userRepository.existsByEmail(any())).thenReturn(false);
 
         createUserUseCase.execute(
                 mockedUser1.getUsername(),
@@ -69,26 +72,23 @@ class CreateUserUseCaseTest {
                 mockedUser1.getPassword()
         );
 
-        Mockito.verify(userRepository, Mockito.times(1)).save(mockedUser1);
-    }
-
-    @Test
-    @DisplayName("Should not create the user if its invalid")
-    public void executeTestCase2(){
-        createUserUseCase.execute(
-                mockedUserInvalid.getUsername(),
-                mockedUserInvalid.getEmail(),
-                mockedUserInvalid.getPassword()
-        );
-
-        Mockito.verify(any(User.class)).validateUsername();
-        Mockito.verify(any(User.class)).validatePassword();
-        Mockito.verify(any(User.class)).validateEmail();
+        Mockito.verify(userRepository, Mockito.times(1)).existsByUsername(mockedUser1.getUsername());
+        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(mockedUser1.getEmail());
+        Mockito.verify(userRepository, Mockito.times(1)).save(any());
     }
 
     @Test
     @DisplayName("Should not create the user if its already exists")
-    public void executeTestCase3(){
+    public void executeTestCase2(){
+        Mockito.when(userRepository.existsByUsername(any())).thenReturn(true);
+        Mockito.when(userRepository.existsByEmail(any())).thenReturn(true);
 
+        assertThrows(BadRequestException.class, () -> {
+            createUserUseCase.execute(
+                    mockedUserInvalid.getUsername(),
+                    mockedUserInvalid.getEmail(),
+                    mockedUserInvalid.getPassword()
+            );
+        });
     }
 }
