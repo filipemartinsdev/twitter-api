@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,7 +41,8 @@ class CreateUserUseCaseTest {
             "test",
             "test@gmail.com",
             "test",
-            UserRole.USER
+            UserRole.USER,
+            LocalDateTime.now()
     );
 
     private final User mockedUser2 = new User(
@@ -48,7 +50,8 @@ class CreateUserUseCaseTest {
             "test2",
             "test2@gmail.com",
             "test2",
-            UserRole.USER
+            UserRole.USER,
+            LocalDateTime.now()
     );
 
     private final  User mockedUserInvalid = new User(
@@ -56,7 +59,8 @@ class CreateUserUseCaseTest {
             " ",
             "@#$",
             " ",
-            UserRole.USER
+            UserRole.USER,
+            LocalDateTime.now()
     );
 
     @Test
