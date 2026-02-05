@@ -5,10 +5,13 @@ import com.api.twitter.user.application.exception.UserValidationException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity @Table(name = "users")
@@ -29,6 +32,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private LocalDateTime createdAt;
+
     // TODO: IMPROVE VALIDATION RESPONSE
     public void validateUsername(){
         final int MIN_LEN_USERNAME = 3;
@@ -43,7 +48,7 @@ public class User {
         }
     }
 
-    private void validateEmail(){
+    public void validateEmail(){
         // TODO
     }
 
@@ -59,5 +64,9 @@ public class User {
         ){
             throw new UserValidationException("Invalid password");
         }
+    }
+
+    public boolean equals(User user2){
+        return this.id.compareTo(user2.getId()) == 0;
     }
 }

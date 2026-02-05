@@ -14,26 +14,23 @@ import java.util.UUID;
 // TODO: fix N+1 problem
 public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("""
-            SELECT user.id AS id, 
-                   user.username AS username,
-                   user.email AS email, 
-                   (
-                     SELECT COUNT(t)
-                     FROM Tweet t
-                     WHERE t.user.id = :userId
-                   ) AS tweetsCount,
-                   (
-                       SELECT COUNT(ur)
-                       FROM UserRelationship ur
-                       WHERE ur.following.id = :userId
-                   ) AS followersCount,
-                   (
-                       SELECT COUNT(ur)
-                       FROM UserRelationship ur
-                       WHERE ur.follower.id = :userId                
-                   ) AS followingCount
-            FROM User user
-            WHERE user.id = :userId
+            SELECT user.id AS id,
+                  user.username as username,
+                  user.email AS email,
+                  user.createdAt AS createdAt,
+                  COUNT(DISTINCT t) AS tweetsCount,
+                  COUNT(DISTINCT ur1) AS followersCount,
+                  COUNT(DISTINCT ur2) AS followingCount
+           FROM User user
+           
+           LEFT JOIN Tweet t
+           ON user.id = t.user.id
+           LEFT JOIN UserRelationship ur1
+           ON user.id = ur1.following.id
+           LEFT JOIN UserRelationship ur2
+           ON user.id = ur2.follower.id
+           WHERE user.id = :userId
+           GROUP BY user.id           
     """)
     Optional<UserAndCounts> findUserAndCountsById(@Param("userId") UUID userId);
 
@@ -41,23 +38,20 @@ public interface UserRepository extends JpaRepository<User, UUID> {
            SELECT user.id AS id,
                   user.username as username,
                   user.email AS email,
-                  (
-                     SELECT COUNT(t)
-                     FROM Tweet t
-                     WHERE t.user.id = user.id
-                  ) AS tweetsCount,
-                  (
-                      SELECT COUNT(ur)
-                      FROM UserRelationship ur
-                      WHERE ur.following.id = user.id
-                  ) AS followersCount,
-                  (
-                      SELECT COUNT(ur)
-                      FROM UserRelationship ur
-                      WHERE ur.follower.id = user.id
-                  ) AS followingCount
+                  user.createdAt AS createdAt,
+                  COUNT(DISTINCT t) AS tweetsCount,                  
+                  COUNT(DISTINCT ur1) AS followersCount,
+                  COUNT(DISTINCT ur2) AS followingCount
            FROM User user
+           
+           LEFT JOIN Tweet t
+           ON user.id = t.user.id
+           LEFT JOIN UserRelationship ur1
+           ON user.id = ur1.following.id
+           LEFT JOIN UserRelationship ur2
+           ON user.id = ur2.follower.id
            WHERE user.username LIKE CONCAT('%', :username, '%')
+           GROUP BY user.id           
     """)
     Page<UserAndCounts> findAllUserAndCountsByUsernameLike(@Param("username") String username, Pageable pageable);
 
@@ -65,22 +59,19 @@ public interface UserRepository extends JpaRepository<User, UUID> {
            SELECT user.id AS id,
                   user.username as username,
                   user.email AS email,
-                  (
-                     SELECT COUNT(t)
-                     FROM Tweet t
-                     WHERE t.user.id = user.id
-                  ) AS tweetsCount,
-                  (
-                      SELECT COUNT(ur)
-                      FROM UserRelationship ur
-                      WHERE ur.following.id = user.id
-                  ) AS followersCount,
-                  (
-                      SELECT COUNT(ur)
-                      FROM UserRelationship ur
-                      WHERE ur.follower.id = user.id
-                  ) AS followingCount
+                  user.createdAt AS createdAt,
+                  COUNT(DISTINCT t) AS tweetsCount,
+                  COUNT(DISTINCT ur1) AS followersCount,
+                  COUNT(DISTINCT ur2) AS followingCount
            FROM User user
+           
+           LEFT JOIN Tweet t
+           ON user.id = t.user.id
+           LEFT JOIN UserRelationship ur1
+           ON user.id = ur1.following.id
+           LEFT JOIN UserRelationship ur2
+           ON user.id = ur2.follower.id
+           GROUP BY user.id
     """)
     Page<UserAndCounts> findAllUserAndCounts(Pageable pageable);
 
