@@ -75,7 +75,9 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 Endpoints de listagem permitem a passagem de parâmetros de paginação:
 - **page**=int
 - **size**=int
-- **sort**=attribute
+- **sort**=field,asc|desc
+
+Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
 
 ---
 
