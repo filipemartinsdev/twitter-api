@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class CreateUserUseCase {
     @Autowired
@@ -29,6 +31,7 @@ public class CreateUserUseCase {
         user.setEmail(email);
         user.setPassword(encryptedPassword);
         user.setRole(UserRole.USER);
+        user.setCreatedAt(LocalDateTime.now());
 
         userRepository.save(user);
     }
