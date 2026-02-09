@@ -4,15 +4,13 @@ import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.model.UserRole;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.dto.UserRegisterRequest;
+import com.api.twitter.user.application.exception.UserValidationException;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -89,10 +87,35 @@ class CreateUserUseCaseTest {
 
         assertThrows(BadRequestException.class, () -> {
             createUserUseCase.execute(
-                    mockedUserInvalid.getUsername(),
-                    mockedUserInvalid.getEmail(),
-                    mockedUserInvalid.getPassword()
+                    mockedUser1.getUsername(),
+                    mockedUser1.getEmail(),
+                    mockedUser1.getPassword()
             );
         });
+    }
+
+    @Test
+    @DisplayName("Should not create the user if it's invalid")
+    public void executeTestCase3(){
+        try (MockedConstruction<User> mockUser = Mockito.mockConstruction(User.class, (mock, context) -> {
+            Mockito.doThrow(new UserValidationException(""))
+                    .when(mock).validateUsername();
+            Mockito.doThrow(new UserValidationException(""))
+                    .when(mock).validateEmail();
+            Mockito.doThrow(new UserValidationException(""))
+                    .when(mock).validatePassword();
+        })) {
+            Mockito.when(userRepository.existsByUsername(any())).thenReturn(false);
+            Mockito.when(userRepository.existsByEmail(any())).thenReturn(false);
+
+            assertThrows(UserValidationException.class, () -> {
+                createUserUseCase.execute(
+                        mockedUserInvalid.getUsername(),
+                        mockedUserInvalid.getEmail(),
+                        mockedUserInvalid.getPassword();
+            });
+
+            Mockito.verify(userRepository, Mockito.times(0)).save(any());
+        }
     }
 }
