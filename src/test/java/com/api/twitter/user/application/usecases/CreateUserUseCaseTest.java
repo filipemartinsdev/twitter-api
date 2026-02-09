@@ -112,7 +112,8 @@ class CreateUserUseCaseTest {
                 createUserUseCase.execute(
                         mockedUserInvalid.getUsername(),
                         mockedUserInvalid.getEmail(),
-                        mockedUserInvalid.getPassword();
+                        mockedUserInvalid.getPassword()
+                );
             });
 
             Mockito.verify(userRepository, Mockito.times(0)).save(any());
