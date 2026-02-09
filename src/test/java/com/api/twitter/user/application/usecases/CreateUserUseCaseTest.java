@@ -2,8 +2,6 @@ package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.model.UserRole;
-import com.api.twitter.security.application.dto.UserLoginRequest;
-import com.api.twitter.security.application.dto.UserRegisterRequest;
 import com.api.twitter.user.application.exception.UserValidationException;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
 
@@ -34,25 +31,16 @@ class CreateUserUseCaseTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    private final User mockedUser1 = new User(
+    private final User userMock1 = new User(
             UUID.randomUUID(),
             "test",
             "test@gmail.com",
-            "test",
+            "12345",
             UserRole.USER,
             LocalDateTime.now()
     );
 
-    private final User mockedUser2 = new User(
-            UUID.randomUUID(),
-            "test2",
-            "test2@gmail.com",
-            "test2",
-            UserRole.USER,
-            LocalDateTime.now()
-    );
-
-    private final  User mockedUserInvalid = new User(
+    private final User userInvalidMock1 = new User(
             UUID.randomUUID(),
             " ",
             "@#$",
@@ -64,19 +52,34 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("Should create the user if its OK")
     public void executeTestCase1(){
-        Mockito.when(userRepository.save(any())).thenReturn(mockedUser1);
-        Mockito.when(userRepository.existsByUsername(any())).thenReturn(false);
-        Mockito.when(userRepository.existsByEmail(any())).thenReturn(false);
+        try (MockedConstruction<User> mockUser = Mockito.mockConstruction( User.class,  (user, context) -> {
+            Mockito.doNothing().when(user).validateUsername();
+            Mockito.doNothing().when(user).validateEmail();
+            Mockito.doNothing().when(user).validatePassword();
+        })){
+        Mockito.when(userRepository.save(any()))
+                .thenReturn(userMock1);
+        Mockito.when(userRepository.existsByUsername(any()))
+                .thenReturn(false);
+        Mockito.when(userRepository.existsByEmail(any()))
+                .thenReturn(false);
 
         createUserUseCase.execute(
-                mockedUser1.getUsername(),
-                mockedUser1.getEmail(),
-                mockedUser1.getPassword()
+                userMock1.getUsername(),
+                userMock1.getEmail(),
+                userMock1.getPassword()
         );
 
-        Mockito.verify(userRepository, Mockito.times(1)).existsByUsername(mockedUser1.getUsername());
-        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(mockedUser1.getEmail());
+        User constructedUser = mockUser.constructed().get(0);
+
+        Mockito.verify(constructedUser, Mockito.times(1)).validateUsername();
+        Mockito.verify(constructedUser, Mockito.times(1)).validateEmail();
+        Mockito.verify(constructedUser, Mockito.times(1)).validatePassword();
+
+        Mockito.verify(userRepository, Mockito.times(1)).existsByUsername(userMock1.getUsername());
+        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(userMock1.getEmail());
         Mockito.verify(userRepository, Mockito.times(1)).save(any());
+        }
     }
 
     @Test
@@ -87,9 +90,9 @@ class CreateUserUseCaseTest {
 
         assertThrows(BadRequestException.class, () -> {
             createUserUseCase.execute(
-                    mockedUser1.getUsername(),
-                    mockedUser1.getEmail(),
-                    mockedUser1.getPassword()
+                    userMock1.getUsername(),
+                    userMock1.getEmail(),
+                    userMock1.getPassword()
             );
         });
     }
@@ -110,9 +113,9 @@ class CreateUserUseCaseTest {
 
             assertThrows(UserValidationException.class, () -> {
                 createUserUseCase.execute(
-                        mockedUserInvalid.getUsername(),
-                        mockedUserInvalid.getEmail(),
-                        mockedUserInvalid.getPassword()
+                        userInvalidMock1.getUsername(),
+                        userInvalidMock1.getEmail(),
+                        userInvalidMock1.getPassword()
                 );
             });
 
