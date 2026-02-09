@@ -40,7 +40,7 @@ public class User {
         final int MAX_LEN_USERNAME = 25;
 
         if (
-                this.username != null ||
+                this.username == null ||
                 this.username.length() < MIN_LEN_USERNAME ||
                 this.username.length() > MAX_LEN_USERNAME
         ){
