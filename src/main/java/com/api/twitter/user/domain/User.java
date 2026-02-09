@@ -58,7 +58,7 @@ public class User {
         final int MAX_LEN_PASSWORD = 50;
 
         if (
-                this.password != null ||
+                this.password == null ||
                 this.password.length() < MIN_LEN_PASSWORD ||
                 this.password.length() > MAX_LEN_PASSWORD
         ){
