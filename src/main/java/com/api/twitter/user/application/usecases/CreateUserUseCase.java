@@ -30,6 +30,10 @@ public class CreateUserUseCase {
         user.setPassword(encryptedPassword);
         user.setRole(UserRole.USER);
 
+        user.validateUsername();
+        user.validateEmail();
+        user.validatePassword();
+
         userRepository.save(user);
     }
 }
