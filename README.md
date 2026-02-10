@@ -21,10 +21,12 @@ API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **
 ## Features
 
 - [x] Autenticação
-- [x] Gerenciamento de usuários
 - [x] Seguir usuários
-- [ ] Criar tweets
-- [ ] Interagir com tweets (comentário/like)
+- [x] Criar tweet
+- [x] Interagir com tweet (comentário/like/view)
+- [x] Buscar usuários
+- [x] Listar tweets
+- [ ] Feed personalizado por usuário
 
 ## Ferramentas para executar
 
