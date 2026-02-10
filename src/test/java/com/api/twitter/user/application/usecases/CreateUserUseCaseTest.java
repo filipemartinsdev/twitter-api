@@ -5,9 +5,7 @@ import com.api.twitter.common.model.UserRole;
 import com.api.twitter.user.application.exception.UserValidationException;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -26,9 +24,16 @@ class CreateUserUseCaseTest {
     @InjectMocks
     private CreateUserUseCase createUserUseCase;
 
+    private AutoCloseable mock;
+
     @BeforeEach
     void setup(){
-        MockitoAnnotations.initMocks(this);
+        mock = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mock.close();
     }
 
     private final User userMock1 = new User(

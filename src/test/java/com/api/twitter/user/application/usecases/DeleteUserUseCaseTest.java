@@ -28,7 +28,7 @@ class DeleteUserUseCaseTest {
     private AutoCloseable mocks;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         mocks = MockitoAnnotations.openMocks(this);
     }
 
