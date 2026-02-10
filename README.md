@@ -126,9 +126,9 @@ Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
   - [x] Token JWT
   - [x] User roles
 - [x] Database Migrations
-- [ ] Testes unitários
-- [ ] Documentação
-  - [ ] API
+- [ ] Testes unitários (em progresso)
+- [ ] Documentação (em progresso)
+  - [ ] API 
   - [ ] Projeto
 - [x] Cache (Redis)
 - [x] Imagem Docker
