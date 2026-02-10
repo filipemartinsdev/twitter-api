@@ -33,6 +33,10 @@ public class CreateUserUseCase {
         user.setRole(UserRole.USER);
         user.setCreatedAt(LocalDateTime.now());
 
+        user.validateUsername();
+        user.validateEmail();
+        user.validatePassword();
+
         userRepository.save(user);
     }
 }
