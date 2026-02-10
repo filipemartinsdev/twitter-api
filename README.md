@@ -135,3 +135,6 @@ Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
 - [x] Container configs (Docker compose)
 - [ ] Deploy (Railway/Render)
 
+---
+
+Made with ❤️ and ☕ by Filipe Martins
