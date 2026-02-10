@@ -1,4 +1,4 @@
-# Twitter API v2.0.2
+# Twitter API v2.1.0
 
 API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **Domain Driven Design**.
 
