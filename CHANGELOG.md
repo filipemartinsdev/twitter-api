@@ -1,8 +1,8 @@
 # Changelog
 
-# [2.1.0] - 2026-XX-XX
+# [2.1.0] - 2026-02-10
 ### Feature
-- Add unit tests.
+- Add unit tests to basic user operations (create/delete).
 
 # [2.0.1] - 2026-02-05
 ### Patch
