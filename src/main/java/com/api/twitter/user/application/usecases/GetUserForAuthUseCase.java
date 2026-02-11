@@ -6,6 +6,7 @@ import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +18,8 @@ public class GetUserForAuthUseCase {
         User user =  this.userRepository.findByUsername(username)
                 .orElse(null);
         if (user == null)
-            return null;
+//            return null;
+            throw new UsernameNotFoundException("User not found");
 
 
         var userDetailsImpl = new UserDetailsImpl();

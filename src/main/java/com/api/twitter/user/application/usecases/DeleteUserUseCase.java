@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+// TODO: when user not exists, is returning 500 instead of 404, fix it
+// cause: authentication error
+
 @Component
 public class DeleteUserUseCase {
     @Autowired
