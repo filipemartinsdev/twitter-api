@@ -20,7 +20,7 @@ public class CreateUserUseCase {
     private PasswordEncoder passwordEncoder;
 
     @CacheEvict(value = "userPages", allEntries = true)
-    public void execute(String username, String email, String encryptedPassword){
+    public void execute(String username, String email, String password){
         if(userRepository.existsByUsername(username))
             throw new BadRequestException("This username is already in use");
         if(userRepository.existsByEmail(email))
@@ -29,13 +29,15 @@ public class CreateUserUseCase {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(encryptedPassword);
+        user.setPassword(password);
         user.setRole(UserRole.USER);
         user.setCreatedAt(LocalDateTime.now());
 
         user.validateUsername();
         user.validateEmail();
         user.validatePassword();
+
+        user.setPassword(passwordEncoder.encode(password));
 
         userRepository.save(user);
     }

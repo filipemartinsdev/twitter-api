@@ -31,12 +31,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void registerUser(UserRegisterRequest userRegisterRequest){
-        String encryptedPassword = passwordEncoder.encode(userRegisterRequest.password());
-
         createUserUseCase.execute(
                 userRegisterRequest.username(),
                 userRegisterRequest.email(),
-                encryptedPassword
+                userRegisterRequest.password()
         );
     }
 
