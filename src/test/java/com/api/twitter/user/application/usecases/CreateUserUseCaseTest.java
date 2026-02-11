@@ -7,6 +7,7 @@ import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 
@@ -20,6 +21,9 @@ import static org.mockito.ArgumentMatchers.any;
 class CreateUserUseCaseTest {
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private CreateUserUseCase createUserUseCase;
@@ -54,6 +58,8 @@ class CreateUserUseCaseTest {
             LocalDateTime.now()
     );
 
+    private final String encryptedPasswordMock = "bd0ef7878fb434715c14a6243e89cdcd";
+
     @Test
     @DisplayName("Should create the user if its OK")
     public void executeTestCase1(){
@@ -68,6 +74,8 @@ class CreateUserUseCaseTest {
                 .thenReturn(false);
         Mockito.when(userRepository.existsByEmail(any()))
                 .thenReturn(false);
+        Mockito.when(passwordEncoder.encode(any()))
+                .thenReturn(encryptedPasswordMock);
 
         createUserUseCase.execute(
                 userMock1.getUsername(),
