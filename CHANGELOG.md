@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0] - 2026-02-13
+### Feature
+- Deploy on Railway (Core + Database)
+- Implement API Documentation with Open API (Swagger)
+- Optimize docker build
+- Improve README
+
 ## [2.1.0] - 2026-02-10
 ### Feature
 - Add unit tests to basic user operations (create/delete).

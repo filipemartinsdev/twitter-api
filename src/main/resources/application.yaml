@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: twitter-api
+    title: "Twitter API"
+    version: "2.2.0"
   profiles:
     active: prod
   datasource:

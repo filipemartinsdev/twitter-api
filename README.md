@@ -4,7 +4,7 @@
 <div align="center">
 <img src="images/twitter-api.png" alt="Logo" width="160pt">
 
-<h3 align="center">Twitter API</h3>    
+<h3 align="center">Twitter API v2</h3>    
 
 <p>
 
