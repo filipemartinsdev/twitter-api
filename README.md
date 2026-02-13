@@ -4,11 +4,11 @@
 <div align="center">
 <img src="images/twitter-api.png" alt="Logo" width="160pt">
 
-<h1 align="center">Twitter API</h1>    
+<h3 align="center">Twitter API</h3>    
 
 <p>
 
-API RESTful para gerenciar um Twitter simplificado
+API para gerenciar um mini twitter
 
 **[Documentação »](---)**
 
