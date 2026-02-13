@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v2/auth/login").permitAll()
                         .requestMatchers("/api/v2/auth/register").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/", "/index.html").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
