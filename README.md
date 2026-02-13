@@ -22,7 +22,6 @@ API para gerenciar um mini twitter
 
 Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean Architecture**.
 
-
 ## Tecnologias
 
 - Java 17
@@ -50,14 +49,7 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
 - [x] Listar tweets
 - [ ] Feed personalizado por usuário
 
-## Ferramentas para executar
-
-- Java 17
-- Apache maven
-- Docker
-
-## Como executar
-
+## Como usar localmente
 1. Clone o projeto
 
     ````bash
@@ -74,28 +66,21 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     ````dotenv
     JWT_SECRET=<YOUR_SECRET>
     JWT_ISSUER=<YOUR_ISSUER>
-    JWT_EXPIRATION_SECONDS=<YOUR_EXPIRATION_SECONDS>
     
+    DB_URL=<YOUR_URL>
     DB_USERNAME=<YOUR_USERNAME>
     DB_PASSWORD=<YOUR_PASSWORD>
-    DB_DATABASE=<YOUR_DATABASE>
-    
-    REDIS_PASSWORD=<YOUR_PASSWORD>
     ````
 
-3. Crie o arquivo JAR
+3. Inicie os containers
 
     ````bash
-    mvn clean package
-    ````
-
-4. Inicie os containers
-
-    ````bash
-    docker compose up -d --build
+    docker compose -f docker-compose-dev.yaml up -d --build
     ````
 
 ## Endpoints
+> Essa página será removida. Utilize a documentação 
+
 Endpoints de listagem permitem a passagem de parâmetros de paginação:
 - **page**=int
 - **size**=int

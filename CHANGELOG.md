@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.3.0] - 2026-02-13
+### Feature
+- Add static home page
+
 ## [2.2.1] - 2026-02-13
 ### Patch
 - Fix Open API environment variables 
