@@ -21,7 +21,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
+//                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configure(httpSecurity))
                 .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/", "/index.html").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/target/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

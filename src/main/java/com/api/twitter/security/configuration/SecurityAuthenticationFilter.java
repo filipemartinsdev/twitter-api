@@ -27,10 +27,13 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = recoverToken(request);
         if (token != null){
-            String username = tokenService.validateTokenAndGetUsername(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            var userPassToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(userPassToken);
+            try {
+                String username = tokenService.validateTokenAndGetUsername(token);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                var userPassToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(userPassToken);
+            } catch (Exception e){
+            }
         }
         filterChain.doFilter(request, response);
     }
