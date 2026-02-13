@@ -1,8 +1,30 @@
-# Twitter API v2.1.0
+<br>
+<br>
 
-API RESTful para gerenciar um Twitter simplificado, utilizando princípios de **Domain Driven Design**.
+<div align="center">
+<img src="images/twitter-api.png" alt="Logo" width="160pt">
+
+<h1 align="center">Twitter API</h1>    
+
+<p>
+
+API RESTful para gerenciar um Twitter simplificado
+
+**[Documentação »](---)**
+
+</p>
+
+</div>
+
+> ⚙️ Em contrução 
+
+## Sobre
+
+Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean Architecture**.
+
 
 ## Tecnologias
+
 - Java 17
   - JavaDoc
 - Spring Framework
@@ -133,7 +155,7 @@ Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
 - [x] Cache (Redis)
 - [x] Imagem Docker
 - [x] Container configs (Docker compose)
-- [ ] Deploy (Railway/Render)
+- [x] Deploy (Railway)
 
 ---
 
