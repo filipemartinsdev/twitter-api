@@ -13,3 +13,9 @@ spring:
       enabled: true
   flyway:
     enabled: false
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

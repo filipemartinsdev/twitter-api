@@ -11,6 +11,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - maven-cache:/root/.m2
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - JWT_ISSUER=${JWT_ISSUER}
@@ -48,3 +50,4 @@ services:
 volumes:
 #  redis_data:
   postgres_data:
+  maven-cache:

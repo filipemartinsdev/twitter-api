@@ -11,6 +11,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - maven-cache:/root/.m2
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - JWT_ISSUER=${JWT_ISSUER}
@@ -46,7 +48,7 @@ services:
 #    command: redis-server --requirepass ${REDIS_PASSWORD}
 #    environment:
 #      - REDIS_PASSWORD=${REDIS_PASSWORD}
-
-#volumes:
-  #  redis_data:
+volumes:
+#  redis_data:
 #  postgres_data:
+  maven-cache:
