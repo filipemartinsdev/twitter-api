@@ -1,7 +1,8 @@
 spring:
   application:
     title: "Twitter API"
-    version: "2.2.0"
+    version: ${APP_VERSION:"x.x.x"}
+    url: ${SERVER_URL:http://localhost:8080/}
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver

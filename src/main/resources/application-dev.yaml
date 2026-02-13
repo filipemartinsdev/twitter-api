@@ -4,7 +4,8 @@ spring:
     username: dev
     password: dev
     title: "Twitter API"
-    version: "2.2.0"
+    version: ${APP_VERSION:"x.x.x"}
+    url: ${SERVER_URL:http://localhost:8080/}
 
   jpa:
     hibernate:
