@@ -114,7 +114,7 @@ while IFS="=" read -r key value; do
   distributionUrl) distributionUrl=$(trim "${value-}") ;;
   distributionSha256Sum) distributionSha256Sum=$(trim "${value-}") ;;
   esac
-done <"$scriptDir/.mvn/wrapper/maven-wrapper.properties"
+done <"$scriptDir/.mvn/wrapper/maven-wrapper.properties.txt"
 [ -n "${distributionUrl-}" ] || die "cannot read distributionUrl property in $scriptDir/.mvn/wrapper/maven-wrapper.properties"
 
 case "${distributionUrl##*/}" in

@@ -1,9 +1,19 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: twitter-api
-
   profiles:
     active: prod
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+
+  cache:
+    type: NONE
 
   data:
     web:
