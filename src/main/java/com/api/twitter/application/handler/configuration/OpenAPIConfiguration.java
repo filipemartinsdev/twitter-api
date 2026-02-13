@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenAPIConfiguration {
-    @Value("{application.title}")
+    @Value("${spring.application.title}")
     private String title;
 
-    @Value("{application.version}")
+    @Value("${spring.application.version}")
     private String version;
 
     @Bean

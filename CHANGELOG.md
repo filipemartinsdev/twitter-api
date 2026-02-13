@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.1] - 2026-02-13
+### Patch
+- Fix Open API environment variables 
+
 ## [2.2.0] - 2026-02-13
 ### Feature
 - Deploy on Railway (Core + Database)
