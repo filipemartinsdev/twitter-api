@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.3.1] - 2026-02-13
+### Patch
+- Update home page title to `Twitter API`
+
 ## [2.3.0] - 2026-02-13
 ### Feature
 - Add static home page
