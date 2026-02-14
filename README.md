@@ -30,6 +30,7 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     - SpringBoot
     - Spring Security
     - Spring OpenAPI (Swagger)
+    - Spring Modulith
 - Lombok
 - JWT
 - JUnit
@@ -49,7 +50,7 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
 - [x] Listar tweets
 - [ ] Feed personalizado por usuário
 
-## Como usar localmente
+## Como rodar localmente
 1. Clone o projeto
 
     ````bash
@@ -57,7 +58,7 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     cd twitter-api
     ````
 
-2. Crie e configure o arquivo .env
+2. Crie e configure o arquivo `.env`
 
     ````
     cp .env.example .env
@@ -78,53 +79,48 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     docker compose -f docker-compose-dev.yaml up -d --build
     ````
 
-## Endpoints
-> Essa página será removida. Utilize a documentação 
+## Requisitos funcionais
+- Cadastro, Login e gerenciamento de usuários
+- Criação e gerenciamento de posts (tweets)
+- Interação entre usuário e tweet (like, comentário e visualização)
+- Interação entre usuários (follow/unfollow)
+- Busca de usuários
+- Busca de tweets
 
-Endpoints de listagem permitem a passagem de parâmetros de paginação:
-- **page**=int
-- **size**=int
-- **sort**=field,asc|desc
+## Requisitos não funcionais
+- Tempo de resposta máximo de 1s (1000ms)
+- Cache de pesquisas
+- Response padronizado (JSend)
+- Criptografia de senhas
+- Autenticação com JWT
+- Comportamento Stateless
 
-Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
+## Arquitetura & Design
+Projeto monolítico, seguindo princípios de:
+- SOLID
+- Domain Driven Design
+- Clean Architecture
 
----
+### Módulos
+Os módulos seguem uma estrutura clara:
 
-- POST `/api/v2/auth/register` <p>
-    ````JSON
-    {
-      "username": "your_name",
-      "email": "your_email@gmail.com",
-      "password": "your_password"
-    } 
-    ````
-- POST `/api/v2/auth/login` <p>
-    ````JSON
-    {
-      "username": "your_username",
-      "password": "your_password"
-    }
-    ````
-- DELETE `/api/v2/users/me` <p>
-- GET `/api/v2/users?q=<username>` <p>
-- GET `/api/v2/users/me` <p>
-- GET `/api/v2/users/{id}` <p>
-- GET `/api/v2/users/{id}/tweets` <p>
-- GET `/api/v2/users/{id}/followers` <p>
-- GET `/api/v2/users/{id}/following` <p>
-- POST `/api/v2/users/{id}/followers` <p>
-- DELETE `/api/v2/users/{id}/followers` <p>
-- GET `/api/v2/tweets` <p>
-- POST `/api/v2/tweets` <p>
-    ````JSON
-    {
-      "content": "YOUR TEXT",
-      "parentId": <OPTIONAL>
-    }
-    ````
-- DELETE `/api/v2/tweets/{id}` <p>
-- POST `/api/v2/tweets/{id}/likes` <p>
-- DELETE `/api/v2/tweets/{id}/likes` <p>
+<img src="images/module.png" height="260pt">
+
+Cada módulo possui três componentes padrões - application, domain e infrastructure.
+
+<img src="images/module_components_infra.png" height="160pt">
+
+<img src="images/module_components_app.png" height="160pt">
+
+Seguindo esse padrão, têm-se os seguintes módulos:
+
+<img src="images/packages.png" height="260pt">
+
+### Database
+
+A modelagem foi feito em um banco relacional.
+
+<img src="images/database.png" height="460pt">
 
 ## To do list
 
@@ -144,4 +140,4 @@ Exemplo: `/api/v2/users?page=0&size=20&sort=username,asc`
 
 ---
 
-Made with ❤️ and ☕ by Filipe Martins
+_Made with ❤️ and ☕ by **Filipe Martins**_

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.2] - 2026-02-14
+### Patch
+- Update `README`. Includes: 
+  - Architecture
+  - Design
+  - UML diagrams
+  - Entity Relation diagram
+
 ## [2.3.1] - 2026-02-13
 ### Patch
 - Update home page title to `Twitter API`
