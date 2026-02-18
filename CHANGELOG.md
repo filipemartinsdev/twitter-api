@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.4.2] - 2026-02-18
+### Patch
+- Change cache serialization type to JSON.
+
 ## [2.4.1] - 2026-02-18
 ### Patch
 - Fix var envs on docker-compose.yaml and CHANGELOG version.
