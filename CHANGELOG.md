@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.3.4] - 2026-02-18
+### Feature
+- Implement cache with Redis.
+
 ## [2.3.3] - 2026-02-14
 ### Patch
 - Disable CSRF
