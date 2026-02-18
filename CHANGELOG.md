@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.3.4] - 2026-02-18
+## [2.4.1] - 2026-02-18
+### Patch
+- Fix var envs on docker-compose.yaml and CHANGELOG version.
+
+## [2.4.0] - 2026-02-18
 ### Feature
 - Implement cache with Redis.
 
