@@ -6,6 +6,8 @@ services:
     depends_on:
       postgres:
         condition: service_started
+      redis:
+        condition: service_started
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,9 +22,17 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_DATABASE}
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-#      - SPRING_REDIS_HOST=redis
-#      - SPRING_REDIS_PORT=6379
-#      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD}
+      - SPRING_DATA_REDIS_URL=redis://redis:6379
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+#    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+
   postgres:
     image: postgres:15-alpine
     restart: unless-stopped
@@ -37,3 +47,4 @@ services:
 volumes:
   postgres_data:
   maven-cache:
+  redis_data:
