@@ -71,6 +71,9 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     DB_URL=<YOUR_URL>
     DB_USERNAME=<YOUR_USERNAME>
     DB_PASSWORD=<YOUR_PASSWORD>
+   
+    REDIS_URL=<YOUR_URL>
+    REDIS_PASSWORD=<YOUR_PASSWORD>
     ````
 
 3. Inicie os containers
@@ -101,6 +104,10 @@ Projeto monolítico, seguindo princípios de:
 - Domain Driven Design
 - Clean Architecture
 
+## Casos de uso
+
+<img src="images/use_cases.png" height="567pt">
+
 ### Módulos
 Os módulos seguem uma estrutura clara:
 
@@ -129,7 +136,7 @@ A modelagem foi feito em um banco relacional.
   - [x] Token JWT
   - [x] User roles
 - [x] Database Migrations
-- [ ] Testes unitários (em progresso)
+- [x] Testes unitários (em progresso)
 - [ ] Documentação (em progresso)
   - [ ] API 
   - [ ] Projeto
