@@ -8,9 +8,12 @@ import com.api.twitter.tweet.domain.Tweet;
 import com.api.twitter.tweet.infrastructure.persistence.TweetRepository;
 import com.api.twitter.user.application.usecases.GetUserEntityStrictUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -25,24 +28,16 @@ public class CreateTweetUseCase {
     private TweetMapper tweetMapper;
 
     @Transactional
+    @CacheEvict(value = "tweetPages", allEntries = true)
     public TweetResponse execute(UUID userId, TweetRequest tweetRequest) {
-        Tweet tweet = Tweet.newDefault();
+        Tweet tweet = new Tweet();
+
+        tweet.setParentId(tweetRequest.parentId());
         tweet.setUser(getUserEntityStrictUseCase.execute(userId));
         tweet.setContent(tweetRequest.content());
-        tweet.setParentId(tweetRequest.parentId());
-
-        if (tweetRequest.parentId() != null)
-            incrementParentTweetCommentsCount(tweetRequest.parentId());
+        tweet.setCreatedAt(LocalDateTime.now());
 
         Tweet savedTweet = tweetRepository.save(tweet);
         return tweetMapper.toResponse(savedTweet);
-    }
-
-    private void incrementParentTweetCommentsCount(UUID parentTweetId){
-        Tweet parentTweet = tweetRepository.findById(parentTweetId)
-                .orElseThrow(() -> new NotFoundException("Parent Tweet not found"));
-
-        parentTweet.incrementCommentsCount();
-        tweetRepository.save(parentTweet);
     }
 }

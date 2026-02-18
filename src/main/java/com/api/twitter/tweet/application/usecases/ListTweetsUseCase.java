@@ -2,15 +2,17 @@ package com.api.twitter.tweet.application.usecases;
 
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.common.exception.NotFoundException;
+import com.api.twitter.tweet.application.dto.TweetAndCounts;
 import com.api.twitter.tweet.application.dto.TweetResponse;
+import com.api.twitter.tweet.application.exceptions.TweetNotFound;
 import com.api.twitter.tweet.application.mappers.TweetMapper;
 import com.api.twitter.tweet.domain.Tweet;
 import com.api.twitter.tweet.infrastructure.persistence.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
@@ -24,13 +26,14 @@ public class ListTweetsUseCase {
 
     public TweetResponse getById(UUID tweetId){
         return tweetMapper.toResponse(
-                tweetRepository.findById(tweetId)
-                        .orElseThrow(() -> new NotFoundException("Tweet not found"))
+                tweetRepository.findTweetAndCountsById(tweetId)
+                        .orElseThrow(() -> new TweetNotFound())
         );
     }
 
+    @Cacheable(value = "tweetPages", key = "#pageable.pageNumber", condition="#page!=null")
     public PagedResponse<TweetResponse> listAll(Pageable pageable) {
-        Page<Tweet> page = tweetRepository.findAllTweets(pageable);
+        Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCounts(pageable);
 
         return PagedResponse.<TweetResponse>builder()
                 .page(page.getNumber())
@@ -45,8 +48,9 @@ public class ListTweetsUseCase {
                 .build();
     }
 
+    @Cacheable(value = "userTweetPages", key = "#userId.toString() + '_' + #pageable.pageNumber", condition="#page!=null")
     public PagedResponse<TweetResponse> listAllTweetsByUserId(UUID userId, Pageable pageable) {
-        Page<Tweet> page = tweetRepository.findAllTweetsByUserId(userId, pageable);
+        Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCountsByUserId(userId, pageable);
 
         return PagedResponse.<TweetResponse>builder()
                 .page(page.getNumber())
@@ -62,7 +66,7 @@ public class ListTweetsUseCase {
     }
 
     public PagedResponse<TweetResponse> listAllCommentsByTweetId(UUID tweetId, Pageable pageable) {
-        Page<Tweet> page = tweetRepository.findAllByParentId(tweetId, pageable);
+        Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCountsByParentId(tweetId, pageable);
 
         return PagedResponse.<TweetResponse>builder()
                 .page(page.getNumber())

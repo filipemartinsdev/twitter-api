@@ -9,6 +9,7 @@ import com.api.twitter.tweet.domain.TweetLikeId;
 import com.api.twitter.tweet.infrastructure.persistence.TweetLikeRepository;
 import com.api.twitter.tweet.infrastructure.persistence.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +43,6 @@ public class InteractTweetUseCase {
                 tweet.getUser().getId()
         );
 
-        tweet.incrementLikesCount();
-
         tweetRepository.save(tweet);
         tweetLikeRepository.save(tweetLike);
     }
@@ -61,11 +60,6 @@ public class InteractTweetUseCase {
         if (tweet.getUser().getId().compareTo(userId) == 0)
             throw new BadRequestException("Can't unlike your self tweet");
 
-        tweet.decrementLikesCount();
-        tweetRepository.save(tweet);
-
         tweetLikeRepository.deleteById(tweetLikeId);
     }
-
-
 }

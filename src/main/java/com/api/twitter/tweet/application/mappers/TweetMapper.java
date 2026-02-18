@@ -1,5 +1,6 @@
 package com.api.twitter.tweet.application.mappers;
 
+import com.api.twitter.tweet.application.dto.TweetAndCounts;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 import com.api.twitter.tweet.application.dto.TweetUserResponse;
 import com.api.twitter.tweet.domain.Tweet;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TweetMapper {
-    public TweetResponse toResponse(Tweet tweet){
+    public TweetResponse toResponse(TweetAndCounts tweet){
         return new TweetResponse(
                 tweet.getId(),
                 tweet.getParentId(),
@@ -16,6 +17,22 @@ public class TweetMapper {
                 tweet.getViewsCount(),
                 tweet.getLikesCount(),
                 tweet.getCommentsCount(),
+                new TweetUserResponse(
+                        tweet.getUser().getId(),
+                        tweet.getUser().getUsername()
+                )
+        );
+    }
+
+    public TweetResponse toResponse(Tweet tweet){
+        return new TweetResponse(
+                tweet.getId(),
+                tweet.getParentId(),
+                tweet.getContent(),
+                tweet.getCreatedAt(),
+                0L,
+                0L,
+                0L,
                 new TweetUserResponse(
                         tweet.getUser().getId(),
                         tweet.getUser().getUsername()

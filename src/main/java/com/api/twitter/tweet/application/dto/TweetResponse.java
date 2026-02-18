@@ -5,7 +5,7 @@ import com.api.twitter.user.application.dto.UserResponse;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record TweetResponse (
+public record  TweetResponse (
         UUID id,
         UUID parentId,
         String content,

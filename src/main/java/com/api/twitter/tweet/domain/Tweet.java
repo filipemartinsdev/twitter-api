@@ -29,52 +29,6 @@ public class Tweet {
     @NotEmpty
     private String content;
 
-    @NotNull @Min(0)
-    private Long likesCount;
-
-    @NotNull @Min(0)
-    private Long commentsCount;
-
-    @NotNull @Min(0)
-    private Long viewsCount;
-
     @NotNull
     private LocalDateTime createdAt;
-
-    public static Tweet newDefault(){
-        return new Tweet(
-                null,
-                null,
-                null,
-                null,
-                0L,
-                0L,
-                0L,
-                LocalDateTime.now()
-        );
-    }
-
-    public void incrementLikesCount(){
-        this.likesCount++;
-    }
-
-    public void decrementLikesCount(){
-        this.likesCount--;
-    }
-
-    public void incrementCommentsCount(){
-        this.commentsCount++;
-    }
-
-    public void decrementCommentsCount(){
-        this.commentsCount--;
-    }
-
-    public void incrementViewsCount(){
-        this.viewsCount++;
-    }
-
-    public void decrementViewsCount(){
-        this.viewsCount--;
-    }
 }

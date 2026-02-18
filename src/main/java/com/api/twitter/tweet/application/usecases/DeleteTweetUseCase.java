@@ -7,6 +7,8 @@ import com.api.twitter.tweet.domain.Tweet;
 import com.api.twitter.tweet.infrastructure.persistence.TweetLikeRepository;
 import com.api.twitter.tweet.infrastructure.persistence.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,11 @@ public class DeleteTweetUseCase {
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @Transactional
+    @CacheEvict(value = "tweet", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "tweetById", key = "#tweetId.toString()"),
+            @CacheEvict(value = "tweetPages", allEntries = true)
+    })
     public void execute(UUID tweetId){
         Tweet tweet = tweetRepository.findById(tweetId)
                 .orElseThrow(() -> new NotFoundException("Tweet not found"));
@@ -33,15 +40,5 @@ public class DeleteTweetUseCase {
         tweetRepository.deleteById(tweetId);
 
         UUID parentId = tweet.getParentId();
-        if (parentId != null){
-            decrementParentTweetCommentsCount(parentId);
-        }
-    }
-
-    private void decrementParentTweetCommentsCount(UUID parentTweetId){
-        Tweet parentTweet = tweetRepository.findById(parentTweetId)
-                .orElseThrow(() -> new NotFoundException("Parent Tweet not found"));
-        parentTweet.decrementCommentsCount();
-        tweetRepository.save(parentTweet);
     }
 }
