@@ -7,8 +7,8 @@ spring:
     title: "Twitter API"
     version: ${APP_VERSION:"x.x.x"}
     url: ${SERVER_URL:http://localhost:8080/}
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -16,9 +16,13 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   cache:
-    type: NONE
+    type: REDIS
+    redis:
+      time-to-live: 10m
 
   data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
     web:
       pageable:
         max-page-size: 50

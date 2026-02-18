@@ -17,6 +17,8 @@ spring:
       enabled: true
   flyway:
     enabled: false
+  cache:
+    type: NONE
 
 springdoc:
   api-docs:
