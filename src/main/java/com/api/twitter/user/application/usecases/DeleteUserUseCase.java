@@ -4,6 +4,8 @@ import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.user.application.exception.UserNotExists;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,10 @@ public class DeleteUserUseCase {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Caching(evict = {
+            @CacheEvict(value = "userById", key = "#id.toString()"),
+            @CacheEvict(value = "userPages", allEntries = true)
+    })
     public void deleteById(UUID id){
         if (!userRepository.existsById(id))
             throw new UserNotExists("User not found");

@@ -25,6 +25,7 @@ public class ListUsersUseCase {
     @Autowired
     private UserMapper userMapper;
 
+    @Cacheable(value = "userById", key = "#id.toString()", condition="#id!=null")
     public UserResponse getById(UUID id){
         UserAndCounts userAndCounts = userRepository.findUserAndCountsById(id)
                 .orElseThrow(() -> new UserNotExists("User not found"));
@@ -32,7 +33,7 @@ public class ListUsersUseCase {
         return userMapper.toResponse(userAndCounts);
     }
 
-    @Cacheable(value = "userPages", key = "#page", condition="#page!=null")
+    @Cacheable(value = "userPages", key = "#pageable.pageNumber", condition="#page!=null")
     public PagedResponse<UserResponse> getAll(Pageable pageable) {
         Page<UserAndCounts> userPage =  userRepository.findAllUserAndCounts(pageable);
 
@@ -50,7 +51,7 @@ public class ListUsersUseCase {
         return userMapper.toPagedUserResponse(userPage);
     }
 
-    @Cacheable(value = "userPages", key = "#page", condition="#page!=null")
+    @Cacheable(value = "userPageQuery", key = "#query + '_' + #pageable.pageNumber", condition="#page!=null")
     public PagedResponse<UserResponse> query(String query, Pageable pageable) {
         Page<UserAndCounts> userPage = userRepository.findAllUserAndCountsByUsernameLike(query, pageable);
 

@@ -64,7 +64,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                   COUNT(DISTINCT ur1) AS followersCount,
                   COUNT(DISTINCT ur2) AS followingCount
            FROM User user
-           
            LEFT JOIN Tweet t
            ON user.id = t.user.id
            LEFT JOIN UserRelationship ur1
