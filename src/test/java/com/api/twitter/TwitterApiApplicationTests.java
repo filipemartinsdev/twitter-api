@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest @ActiveProfiles(value = "test")
+@SpringBootTest @ActiveProfiles("test")
 class TwitterApiApplicationTests {
 
 	@Test

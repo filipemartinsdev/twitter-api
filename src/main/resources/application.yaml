@@ -7,8 +7,6 @@ spring:
     title: "Twitter API"
     version: ${APP_VERSION:"x.x.x"}
     url: ${SERVER_URL:http://localhost:8080/}
-#  profiles:
-#    active: prod
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
