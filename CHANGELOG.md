@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.5.0] - 2026-02-19
+### Patch
+- Create healthcheck endpoint.
+
 ## [2.4.4] - 2026-02-18
 ### Patch
 - Fix tweet interaction endpoints (wrong path).
