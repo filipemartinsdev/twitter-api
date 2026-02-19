@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.4.3] - 2026-02-18
+### Patch
+- Add PORT var env.
+
 ## [2.4.2] - 2026-02-18
 ### Patch
 - Change cache serialization type to JSON.
