@@ -23,7 +23,7 @@ public class InteractTweetController {
     @Autowired
     private ViewTweetUseCase viewTweetUseCase;
 
-    @PostMapping("/likes/{tweetId}")
+    @PostMapping("/{tweetId}/likes")
     public ResponseEntity<ApiResponse<Void>> likeTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
         interactTweetUseCase.likeTweetAsUser(tweetId, authenticatedUserId);
@@ -33,7 +33,7 @@ public class InteractTweetController {
                 .build();
     }
 
-    @DeleteMapping("/likes/{tweetId}")
+    @DeleteMapping("/{tweetId}/likes")
     public ResponseEntity<ApiResponse<Void>> unlikeTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
         interactTweetUseCase.unlikeTweetAsUser(tweetId, authenticatedUserId);
@@ -43,7 +43,7 @@ public class InteractTweetController {
                 .build();
     }
 
-    @PostMapping("/views/{tweetId}")
+    @PostMapping("{tweetId}/views")
     public ResponseEntity<ApiResponse<Void>> viewTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
         viewTweetUseCase.viewTweetAsUser(tweetId, authenticatedUserId);

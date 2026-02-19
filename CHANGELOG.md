@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.4.4] - 2026-02-18
+### Patch
+- Fix tweet interaction endpoints (wrong path).
+
 ## [2.4.3] - 2026-02-18
 ### Patch
 - Add PORT var env.
