@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.6.2] - 2026-02-20
+### Patch
+- Fix tweet interactions count.
+
 ## [2.6.1] - 2026-02-20
 ### Patch
 - Fix password encode error when update user.
