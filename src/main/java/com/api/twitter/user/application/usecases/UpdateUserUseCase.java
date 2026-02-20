@@ -7,6 +7,8 @@ import com.api.twitter.user.application.mappers.UserMapper;
 import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,11 @@ public class UpdateUserUseCase {
     @Autowired
     private UserMapper userMapper;
 
+    @Caching(evict = {
+            @CacheEvict(value = "usersByPageSizeSort", allEntries = true),
+            @CacheEvict(value = "userQueryByNumberSizeSort", allEntries = true),
+            @CacheEvict(value = "userById", key = "#id.toString()")
+    })
     @Transactional
     public UserResponse execute(UUID id, Map<String, Object> fields){
         User user = userRepository.findById(id)

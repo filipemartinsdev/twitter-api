@@ -6,6 +6,7 @@ import com.api.twitter.user.domain.User;
 import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,10 @@ public class CreateUserUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @CacheEvict(value = "userPages", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "usersByPageSizeSort", allEntries = true),
+            @CacheEvict(value = "userQueryByNumberSizeSort", allEntries = true)
+    })
     public void execute(String username, String email, String password){
         if(userRepository.existsByUsername(username))
             throw new BadRequestException("This username is already in use");
