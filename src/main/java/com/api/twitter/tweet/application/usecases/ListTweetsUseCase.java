@@ -24,6 +24,11 @@ public class ListTweetsUseCase {
     @Autowired
     private TweetMapper tweetMapper;
 
+    @Cacheable(
+            value = "tweetById",
+            key = "#tweetId.toString()",
+            condition="#tweetId!=null"
+    )
     public TweetResponse getById(UUID tweetId){
         return tweetMapper.toResponse(
                 tweetRepository.findTweetAndCountsById(tweetId)
@@ -31,7 +36,11 @@ public class ListTweetsUseCase {
         );
     }
 
-    @Cacheable(value = "tweetPages", key = "#pageable.pageNumber", condition="#page!=null")
+    @Cacheable(
+            value = "tweetsByPageSizeSort",
+            key = "#pageable.pageNumber + '_' + #pageable.pageSize + '_' + #pageable.sort.toString()",
+            unless = "#result.content.isEmpty()"
+    )
     public PagedResponse<TweetResponse> listAll(Pageable pageable) {
         Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCounts(pageable);
 
@@ -48,7 +57,12 @@ public class ListTweetsUseCase {
                 .build();
     }
 
-    @Cacheable(value = "userTweetPages", key = "#userId.toString() + '_' + #pageable.pageNumber", condition="#page!=null")
+
+    @Cacheable(
+            value = "tweetsByUserIdPageSizeSort",
+            key = "#userId.toString() + '_' + #pageable.pageNumber + '_' + #pageable.pageSize + '_' + #pageable.sort.toString()",
+            unless = "#result.content.isEmpty()"
+    )
     public PagedResponse<TweetResponse> listAllTweetsByUserId(UUID userId, Pageable pageable) {
         Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCountsByUserId(userId, pageable);
 
@@ -64,7 +78,7 @@ public class ListTweetsUseCase {
                 )
                 .build();
     }
-
+    
     public PagedResponse<TweetResponse> listAllCommentsByTweetId(UUID tweetId, Pageable pageable) {
         Page<TweetAndCounts> page = tweetRepository.findAllTweetAndCountsByParentId(tweetId, pageable);
 
