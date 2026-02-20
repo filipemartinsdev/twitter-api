@@ -23,10 +23,10 @@ public class DeleteTweetUseCase {
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @Transactional
-    @CacheEvict(value = "tweet", allEntries = true)
     @Caching(evict = {
+            @CacheEvict(value = "tweetsByPageSizeSort", allEntries = true),
+            @CacheEvict(value = "tweetsByUserIdPageSizeSort", allEntries = true),
             @CacheEvict(value = "tweetById", key = "#tweetId.toString()"),
-            @CacheEvict(value = "tweetPages", allEntries = true)
     })
     public void execute(UUID tweetId){
         Tweet tweet = tweetRepository.findById(tweetId)

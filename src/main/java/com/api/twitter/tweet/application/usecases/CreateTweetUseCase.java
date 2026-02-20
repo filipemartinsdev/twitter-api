@@ -28,7 +28,10 @@ public class CreateTweetUseCase {
     private TweetMapper tweetMapper;
 
     @Transactional
-    @CacheEvict(value = "tweetPages", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "tweetsByPageSizeSort", allEntries = true),
+            @CacheEvict(value = "tweetsByUserIdPageSizeSort", allEntries = true)
+    })
     public TweetResponse execute(UUID userId, TweetRequest tweetRequest) {
         Tweet tweet = new Tweet();
 
