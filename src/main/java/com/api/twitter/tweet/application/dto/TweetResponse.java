@@ -2,6 +2,7 @@ package com.api.twitter.tweet.application.dto;
 
 import com.api.twitter.user.application.dto.UserResponse;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,4 +15,4 @@ public record  TweetResponse (
         Long likesCount,
         Long commentsCount,
         TweetUserResponse user
-){}
+) implements Serializable {}
