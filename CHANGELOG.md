@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.6.1] - 2026-02-20
+### Patch
+- Fix password encode error when update user.
+
 ## [2.6.0] - 2026-02-20
 ### Feat
 - Implement cache to paged responses (Users & Tweets).
