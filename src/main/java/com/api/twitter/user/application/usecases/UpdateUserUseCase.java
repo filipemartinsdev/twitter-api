@@ -9,6 +9,7 @@ import com.api.twitter.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class UpdateUserUseCase {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Caching(evict = {
             @CacheEvict(value = "usersByPageSizeSort", allEntries = true),
@@ -66,6 +70,7 @@ public class UpdateUserUseCase {
                     }
                     user.setPassword(password);
                     user.validatePassword();
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
                 break;
 
                 default:
