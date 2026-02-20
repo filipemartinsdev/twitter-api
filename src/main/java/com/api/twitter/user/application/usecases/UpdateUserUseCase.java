@@ -77,7 +77,7 @@ public class UpdateUserUseCase {
                     throw new BadRequestException("Invalid field: '"+key+"'");
             }
         });
-
+        // TODO: Create UserUpdatedResponse DTO, that only includes id, username and email
         return userMapper.toResponse(userRepository.save(user));
     }
 }

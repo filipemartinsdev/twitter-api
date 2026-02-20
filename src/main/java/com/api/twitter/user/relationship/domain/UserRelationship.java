@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity @Table(name = "user_relationship")
-@IdClass(UserRelationship.class)
+@IdClass(UserRelationshipId.class)
 @Data
 @AllArgsConstructor @NoArgsConstructor
 public class UserRelationship {

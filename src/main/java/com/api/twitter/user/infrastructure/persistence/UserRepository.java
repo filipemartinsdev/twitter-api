@@ -19,8 +19,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                   user.email AS email,
                   user.createdAt AS createdAt,
                   COUNT(DISTINCT t) AS tweetsCount,
-                  COUNT(DISTINCT ur1) AS followersCount,
-                  COUNT(DISTINCT ur2) AS followingCount
+                  COUNT(DISTINCT ur1.follower.id) AS followersCount,
+                  COUNT(DISTINCT ur2.following.id) AS followingCount
            FROM User user
            
            LEFT JOIN Tweet t
@@ -40,8 +40,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                   user.email AS email,
                   user.createdAt AS createdAt,
                   COUNT(DISTINCT t) AS tweetsCount,                  
-                  COUNT(DISTINCT ur1) AS followersCount,
-                  COUNT(DISTINCT ur2) AS followingCount
+                  COUNT(DISTINCT ur1.follower.id) AS followersCount,
+                  COUNT(DISTINCT ur2.following.id) AS followingCount
            FROM User user
            
            LEFT JOIN Tweet t
@@ -61,8 +61,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                   user.email AS email,
                   user.createdAt AS createdAt,
                   COUNT(DISTINCT t) AS tweetsCount,
-                  COUNT(DISTINCT ur1) AS followersCount,
-                  COUNT(DISTINCT ur2) AS followingCount
+                  COUNT(DISTINCT ur1.follower.id) AS followersCount,
+                  COUNT(DISTINCT ur2.following.id) AS followingCount
            FROM User user
            LEFT JOIN Tweet t
            ON user.id = t.user.id
