@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.6.0] - 2026-02-20
+### Feat
+- Implement cache to paged responses (Users & Tweets).
+- Add cache invalidation on any User/Tweet update.
+
 ## [2.5.0] - 2026-02-19
 ### Patch
 - Create healthcheck endpoint.
