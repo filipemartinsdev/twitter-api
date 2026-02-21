@@ -2,14 +2,12 @@ package com.api.twitter.tweet.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.NotFoundException;
-import com.api.twitter.common.exception.UnauthorizedException;
 import com.api.twitter.tweet.domain.Tweet;
 import com.api.twitter.tweet.domain.TweetLike;
 import com.api.twitter.tweet.domain.TweetLikeId;
 import com.api.twitter.tweet.infrastructure.persistence.TweetLikeRepository;
 import com.api.twitter.tweet.infrastructure.persistence.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,15 +30,15 @@ public class InteractTweetUseCase {
         var tweetLikeId = new TweetLikeId(tweetId, userId);
 
         if (tweetLikeRepository.existsById(tweetLikeId))
-            throw new BadRequestException("User has already liked this tweet");
+            throw new BadRequestException("UserProfile has already liked this tweet");
 
-        if (tweet.getUser().getId().compareTo(userId) == 0)
+        if (tweet.getUser().getUserId().compareTo(userId) == 0)
             throw new BadRequestException("Can't like your self tweet");
 
         TweetLike tweetLike = new TweetLike(
                 tweetLikeId,
                 LocalDateTime.now(),
-                tweet.getUser().getId()
+                tweet.getUser().getUserId()
         );
 
         tweetRepository.save(tweet);
@@ -55,9 +53,9 @@ public class InteractTweetUseCase {
         var tweetLikeId = new TweetLikeId(tweetId, userId);
 
         if (!tweetLikeRepository.existsById(tweetLikeId))
-            throw new BadRequestException("User hasn't liked this tweet yet");
+            throw new BadRequestException("UserProfile hasn't liked this tweet yet");
 
-        if (tweet.getUser().getId().compareTo(userId) == 0)
+        if (tweet.getUser().getUserId().compareTo(userId) == 0)
             throw new BadRequestException("Can't unlike your self tweet");
 
         tweetLikeRepository.deleteById(tweetLikeId);

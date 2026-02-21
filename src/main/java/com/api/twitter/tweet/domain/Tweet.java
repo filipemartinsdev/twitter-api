@@ -1,8 +1,7 @@
 package com.api.twitter.tweet.domain;
 
-import com.api.twitter.user.domain.User;
+import com.api.twitter.user.domain.UserProfile;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,7 @@ public class Tweet {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserProfile user;
 
     @NotEmpty
     private String content;

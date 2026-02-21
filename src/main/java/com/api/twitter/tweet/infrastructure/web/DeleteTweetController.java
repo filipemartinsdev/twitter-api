@@ -1,6 +1,7 @@
 package com.api.twitter.tweet.infrastructure.web;
 
 import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.AuthenticatedUser;
 import com.api.twitter.common.exception.UnauthorizedException;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.tweet.application.usecases.DeleteTweetUseCase;
@@ -27,9 +28,11 @@ public class DeleteTweetController {
     @Autowired
     private VerifyTweetUseCase verifyTweetUseCase;
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse<Void>> deleteTweetById(@PathVariable UUID id){
-        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+        AuthenticatedUser authenticatedUser = getAuthenticatedUserUseCase.execute()
+                .orElseThrow(() -> new UnauthorizedException("User not authenticated"));
+        UUID authenticatedUserId = authenticatedUser.id();
 
         if (!verifyTweetUseCase.isTweetFromUser(id, authenticatedUserId))
             throw new UnauthorizedException("Authenticated user is not owner of this tweet");

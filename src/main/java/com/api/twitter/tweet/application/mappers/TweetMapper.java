@@ -18,7 +18,7 @@ public class TweetMapper {
                 tweet.getLikesCount(),
                 tweet.getCommentsCount(),
                 new TweetUserResponse(
-                        tweet.getUser().getId(),
+                        tweet.getUser().getUserId(),
                         tweet.getUser().getUsername()
                 )
         );
@@ -34,7 +34,7 @@ public class TweetMapper {
                 0L,
                 0L,
                 new TweetUserResponse(
-                        tweet.getUser().getId(),
+                        tweet.getUser().getUserId(),
                         tweet.getUser().getUsername()
                 )
         );

@@ -17,6 +17,6 @@ public class VerifyTweetUseCase {
         Tweet tweet = tweetRepository.findById(tweetId)
                 .orElseThrow(() -> new NotFoundException("Tweet not found"));
 
-        return tweet.getUser().getId().compareTo(userId) == 0;
+        return tweet.getUser().getUserId().compareTo(userId) == 0;
     }
 }

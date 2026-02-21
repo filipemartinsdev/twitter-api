@@ -5,7 +5,6 @@ import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase
 import com.api.twitter.tweet.application.dto.TweetRequest;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 import com.api.twitter.tweet.application.usecases.CreateTweetUseCase;
-import com.api.twitter.tweet.application.usecases.VerifyTweetUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class CreateTweetController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<TweetResponse>> createTweet(@Valid @RequestBody TweetRequest tweetRequest){
-        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+        UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
 
         TweetResponse createdTweet = createTweetUseCase.execute(authenticatedUserId, tweetRequest);
 

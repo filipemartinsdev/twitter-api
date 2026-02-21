@@ -1,7 +1,6 @@
 package com.api.twitter.tweet.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
-import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.tweet.application.exceptions.TweetNotFound;
 import com.api.twitter.tweet.domain.Tweet;
 import com.api.twitter.tweet.domain.TweetView;
@@ -33,7 +32,7 @@ public class ViewTweetUseCase {
         Tweet tweet = tweetRepository.findById(tweetId)
                 .orElseThrow(() -> new TweetNotFound("Tweet not exists"));
 
-        if (tweet.getUser().getId().compareTo(userId) == 0)
+        if (tweet.getUser().getUserId().compareTo(userId) == 0)
             throw new BadRequestException("Can't view your self tweet");
 
         tweetViewRepository.save(

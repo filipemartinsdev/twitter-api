@@ -16,7 +16,7 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
     @Query(
             "SELECT t FROM Tweet t "+
             "WHERE t.parentId is null "+
-            "AND t.user.id = :userId"
+            "AND t.user.userId = :userId"
     )
     Page<Tweet> findAllTweetsByUserId(@Param("userId") UUID userId, Pageable pageable);
 
@@ -32,7 +32,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
 
     @Query(
             """
-            SELECT t.id AS id,
+            SELECT
+            t.id AS id,
+            t.user.userId AS userId,
             t.parentId AS parentId,
             t.content AS content,
             t.createdAt AS createdAt,
@@ -42,11 +44,11 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
             COUNT(DISTINCT c) AS commentsCount
             FROM Tweet t
             
-            LEFT JOIN TweetView v ON v.id.tweetId = t.id
-            LEFT JOIN TweetLike l ON l.id.tweetId = t.id
-            LEFT JOIN Tweet c ON c.parentId = t.id
+            LEFT JOIN TweetView v ON v.id.tweetId = t.user.userId
+            LEFT JOIN TweetLike l ON l.id.tweetId = t.user.userId
+            LEFT JOIN Tweet c ON c.parentId = t.user.userId
             
-            WHERE t.id = :tweetId
+            WHERE t.user.userId = :tweetId
             GROUP BY t.id, t.user
             """
     )
@@ -54,7 +56,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
 
     @Query(
             """
-            SELECT t.id AS id, 
+            SELECT 
+            t.id AS id,
+            t.user.userId AS userId,
             t.parentId AS parentId, 
             t.content AS content, 
             t.createdAt AS createdAt, 
@@ -64,9 +68,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
             COUNT(DISTINCT c) AS commentsCount
             FROM Tweet t
             
-            LEFT JOIN TweetView v ON v.id.tweetId = t.id
-            LEFT JOIN TweetLike l ON l.id.tweetId = t.id
-            LEFT JOIN Tweet c ON c.parentId = t.id
+            LEFT JOIN TweetView v ON v.id.tweetId = t.user.userId
+            LEFT JOIN TweetLike l ON l.id.tweetId = t.user.userId
+            LEFT JOIN Tweet c ON c.parentId = t.user.userId
             
             WHERE t.parentId IS NULL
             GROUP BY t.id, t.user
@@ -76,7 +80,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
 
     @Query(
             """
-            SELECT t.id AS id, 
+            SELECT
+            t.id AS id,
+            t.user.userId AS userId,
             t.parentId AS parentId, 
             t.content AS content, 
             t.createdAt AS createdAt, 
@@ -86,12 +92,12 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
             COUNT(DISTINCT c) AS commentsCount
             FROM Tweet t
             
-            LEFT JOIN TweetView v ON v.id.tweetId = t.id
-            LEFT JOIN TweetLike l ON l.id.tweetId = t.id
-            LEFT JOIN Tweet c ON c.parentId = t.id
+            LEFT JOIN TweetView v ON v.id.tweetId = t.user.userId
+            LEFT JOIN TweetLike l ON l.id.tweetId = t.user.userId
+            LEFT JOIN Tweet c ON c.parentId = t.user.userId
             
             WHERE t.parentId IS NULL
-            AND t.user.id = :userId
+            AND t.user.userId = :userId
             GROUP BY t.id, t.user
             """
     )
@@ -99,7 +105,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
 
     @Query(
             """
-            SELECT t.id AS id, 
+            SELECT
+            t.id AS id,
+            t.user.userId AS userId,
             t.parentId AS parentId, 
             t.content AS content, 
             t.createdAt AS createdAt, 
@@ -109,9 +117,9 @@ public interface TweetRepository extends JpaRepository<Tweet, UUID> {
             COUNT(DISTINCT c) AS commentsCount
             FROM Tweet t
             
-            LEFT JOIN TweetView v ON v.id.tweetId = t.id
-            LEFT JOIN TweetLike l ON l.id.tweetId = t.id
-            LEFT JOIN Tweet c ON c.parentId = t.id
+            LEFT JOIN TweetView v ON v.id.tweetId = t.user.userId
+            LEFT JOIN TweetLike l ON l.id.tweetId = t.user.userId
+            LEFT JOIN Tweet c ON c.parentId = t.user.userId
             
             WHERE t.parentId = :parentId
             GROUP BY t.id, t.user
