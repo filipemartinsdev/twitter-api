@@ -1,7 +1,7 @@
 package com.api.twitter.security.configuration;
 
-import com.api.twitter.security.domain.service.UserDetailsServiceImpl;
-import com.api.twitter.security.infrastructure.TokenService;
+import com.api.twitter.security.domain.service.UserCredentialsService;
+import com.api.twitter.security.domain.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserCredentialsService userCredentialsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
         if (token != null){
             try {
                 String username = tokenService.validateTokenAndGetUsername(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = userCredentialsService.loadUserByUsername(username);
                 var userPassToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(userPassToken);
             } catch (Exception e){

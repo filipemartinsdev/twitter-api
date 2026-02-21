@@ -1,17 +1,13 @@
 package com.api.twitter.security.domain.service;
 
-import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.common.exception.InternalServerErrorException;
-import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.exception.ExpiredTokenException;
 import com.api.twitter.security.application.exception.InvalidTokenException;
-import com.api.twitter.security.infrastructure.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
