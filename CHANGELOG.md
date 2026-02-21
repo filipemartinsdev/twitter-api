@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.6.4] - 2026-02-20
+### Patch
+- Fix typo on controllers (path variable userId)
+
 ## [2.6.3] - 2026-02-20
 ### Patch
 - Segregate User entity to two entities:

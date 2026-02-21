@@ -28,7 +28,7 @@ public class DeleteTweetController {
     @Autowired
     private VerifyTweetUseCase verifyTweetUseCase;
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTweetById(@PathVariable UUID id){
         AuthenticatedUser authenticatedUser = getAuthenticatedUserUseCase.execute()
                 .orElseThrow(() -> new UnauthorizedException("User not authenticated"));
