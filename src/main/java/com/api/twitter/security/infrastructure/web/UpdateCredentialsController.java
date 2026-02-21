@@ -1,0 +1,38 @@
+package com.api.twitter.security.infrastructure.web;
+
+import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.exception.UnauthorizedException;
+import com.api.twitter.security.application.dto.UpdatePasswordRequest;
+import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
+import com.api.twitter.security.application.usecases.UpdateUserCredentialsUseCase;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v2/auth/users")
+public class UpdateCredentialsController {
+    private UpdateUserCredentialsUseCase updateUserCredentialsUseCase;
+    private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
+
+    public UpdateCredentialsController(GetAuthenticatedUserUseCase getAuthenticatedUserUseCase, UpdateUserCredentialsUseCase updateUserCredentialsUseCase) {
+        this.getAuthenticatedUserUseCase = getAuthenticatedUserUseCase;
+        this.updateUserCredentialsUseCase = updateUserCredentialsUseCase;
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<ApiResponse<Void>> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
+        var userAuth = getAuthenticatedUserUseCase.execute()
+                .orElseThrow(() -> new UnauthorizedException("User not authenticated"));
+
+        updateUserCredentialsUseCase.updatePassword(userAuth.id(), request.password());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success());
+    }
+}

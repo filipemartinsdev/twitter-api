@@ -4,14 +4,11 @@ import com.api.twitter.common.dto.ApiResponse;
 import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.application.dto.UserRegisterRequest;
-import com.api.twitter.security.domain.service.UserService;
-import com.api.twitter.security.infrastructure.TokenService;
-import com.api.twitter.user.application.usecases.VerifyUserUseCase;
+import com.api.twitter.security.application.usecases.LoginUseCase;
+import com.api.twitter.security.application.usecases.RegisterUserCredentialsUseCase;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,21 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v2/auth")
 public class AuthController {
-    @Autowired
-    private TokenService tokenService;
+    private LoginUseCase loginUseCase;
+    private RegisterUserCredentialsUseCase registerUseCase;
 
-    @Autowired
-    private VerifyUserUseCase verifyUserUseCase;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserService userService;
+    public AuthController(LoginUseCase loginUseCase, RegisterUserCredentialsUseCase registerUseCase) {
+        this.loginUseCase = loginUseCase;
+        this.registerUseCase = registerUseCase;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
-        TokenResponse tokenResponse = userService.loginUserAndGetToken(userLoginRequest);
+        TokenResponse tokenResponse = loginUseCase.loginUserAndGetToken(userLoginRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -43,7 +36,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest){
-        userService.registerUser(userRegisterRequest);
+        registerUseCase.execute(
+                userRegisterRequest.username(),
+                userRegisterRequest.email(),
+                userRegisterRequest.password()
+        );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
