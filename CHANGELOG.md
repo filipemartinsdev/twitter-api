@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.3] - 2026-02-20
+### Patch
+- Segregate User entity to two entities:
+  - UserCredentials (authentication)
+  - UserProfile (user uses)
+- Create migrations to update the user table.
+- Create event to communication from **user** to **security**.
+
 ## [2.6.2] - 2026-02-20
 ### Patch
 - Fix tweet interactions count.
