@@ -1,7 +1,7 @@
 package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.exception.BadRequestException;
-import com.api.twitter.user.infrastructure.persistence.UserRepository;
+import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Component
 public class VerifyUserUseCase {
     @Autowired
-    private UserRepository userRepository;
+    private UserProfileRepository userRepository;
 
     public boolean existsById(UUID id){
         return this.userRepository.existsById(id);

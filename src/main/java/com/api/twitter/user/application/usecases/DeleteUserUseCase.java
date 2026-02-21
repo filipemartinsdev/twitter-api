@@ -1,8 +1,9 @@
 package com.api.twitter.user.application.usecases;
 
-import com.api.twitter.common.exception.NotFoundException;
+import com.api.twitter.common.events.UserDeletedEvent;
 import com.api.twitter.user.application.exception.UserNotExists;
-import com.api.twitter.user.infrastructure.persistence.UserRepository;
+import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
@@ -17,20 +18,22 @@ import java.util.UUID;
 @Component
 public class DeleteUserUseCase {
     @Autowired
-    private UserRepository userRepository;
+    private UserProfileRepository userRepository;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Transactional
     @Caching(evict = {
             @CacheEvict(value = "usersByPageSizeSort", allEntries = true),
             @CacheEvict(value = "userQueryByNumberSizeSort", allEntries = true),
-            @CacheEvict(value = "userById", key = "#id.toString()")
+            @CacheEvict(value = "userById", key = "#userId.toString()")
     })
     public void deleteById(UUID id){
         if (!userRepository.existsById(id))
-            throw new UserNotExists("User not found");
+            throw new UserNotExists("UserProfile not found");
 
         userRepository.deleteById(id);
+        applicationEventPublisher.publishEvent(new UserDeletedEvent(id, this));
     }
 }

@@ -23,7 +23,7 @@ public class DeleteUserController {
 
     @DeleteMapping("/me")
     public ResponseEntity<ApiResponse<Void>> deleteAuthenticatedUser(){
-        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+        UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         deleteUserUseCase.deleteById(authenticatedUserId);
 
         return ResponseEntity

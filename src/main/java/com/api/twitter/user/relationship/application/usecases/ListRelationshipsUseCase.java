@@ -5,7 +5,7 @@ import com.api.twitter.common.exception.BadRequestException;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.mappers.UserMapper;
 import com.api.twitter.user.application.usecases.VerifyUserUseCase;
-import com.api.twitter.user.domain.User;
+import com.api.twitter.user.domain.UserProfile;
 import com.api.twitter.user.relationship.infrastructure.persistence.UserRelationshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,9 +28,9 @@ public class ListRelationshipsUseCase {
     public PagedResponse<UserResponse> getAllFollowersOfUser(UUID userId, Pageable pageable){
 
         if (!verifyUserUseCase.existsById(userId))
-            throw new BadRequestException("User not found");
+            throw new BadRequestException("UserProfile not found");
 
-        Page<User> userPage = userRelationshipRepository.findAllFollowersOfUser(userId, pageable);
+        Page<UserProfile> userPage = userRelationshipRepository.findAllFollowersOfUser(userId, pageable);
 
         return PagedResponse.<UserResponse>builder()
                 .size(userPage.getSize())
@@ -46,7 +46,7 @@ public class ListRelationshipsUseCase {
     }
 
     public PagedResponse<UserResponse> getAllFollowingOfUser(UUID userId, Pageable pageable){
-        Page<User> userPage = userRelationshipRepository.findAllFollowingOfUser(userId, pageable);
+        Page<UserProfile> userPage = userRelationshipRepository.findAllFollowingOfUser(userId, pageable);
 
         return PagedResponse.<UserResponse>builder()
                 .size(userPage.getSize())

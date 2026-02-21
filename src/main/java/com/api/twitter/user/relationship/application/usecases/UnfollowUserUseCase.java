@@ -24,15 +24,15 @@ public class UnfollowUserUseCase {
 
     @Transactional
     public void execute(UUID followerId, UUID followingId){
-        if (!userRelationshipRepository.existsByFollowerIdAndFollowingId(followerId, followingId))
+        if (!userRelationshipRepository.existsByFollowerUserIdAndFollowingUserId(followerId, followingId))
             throw new BadRequestException("Its not following this user yet");
 
         if (
                 !verifyUserUseCase.existsById(followerId) ||
                 !verifyUserUseCase.existsById(followerId)
         ){
-            throw new NotFoundException("User not found");
+            throw new NotFoundException("UserProfile not found");
         }
-        userRelationshipRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
+        userRelationshipRepository.deleteByFollowerUserIdAndFollowingUserId(followerId, followingId);
     }
 }

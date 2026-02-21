@@ -23,18 +23,18 @@ public class ManageRelationshipController {
     @Autowired
     private UnfollowUserUseCase unfollowUserUseCase;
 
-    @PostMapping("/{id}/followers")
+    @PostMapping("/{userId}/followers")
     public ResponseEntity<ApiResponse<Void>> followUser(@PathVariable UUID id){
-        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+        UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         followUserUseCase.execute(authenticatedUserId, id);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success());
     }
 
-    @DeleteMapping("/{id}/followers")
+    @DeleteMapping("/{userId}/followers")
     public ResponseEntity<ApiResponse<Void>> unfollowUser(@PathVariable UUID id){
-        UUID authenticatedUserId = getAuthenticatedUserUseCase.execute().id();
+        UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         unfollowUserUseCase.execute(authenticatedUserId, id);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

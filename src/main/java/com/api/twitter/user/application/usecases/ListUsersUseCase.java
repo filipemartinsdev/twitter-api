@@ -1,13 +1,11 @@
 package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.dto.PagedResponse;
-import com.api.twitter.common.exception.NotFoundException;
 import com.api.twitter.user.application.dto.UserAndCounts;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.exception.UserNotExists;
 import com.api.twitter.user.application.mappers.UserMapper;
-import com.api.twitter.user.domain.User;
-import com.api.twitter.user.infrastructure.persistence.UserRepository;
+import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,19 +18,19 @@ import java.util.UUID;
 @Component
 public class ListUsersUseCase {
     @Autowired
-    private UserRepository userRepository;
+    private UserProfileRepository userRepository;
 
     @Autowired
     private UserMapper userMapper;
 
     @Cacheable(
             value = "userById",
-            key = "#id.toString()",
-            condition="#id!=null"
+            key = "#userId.toString()",
+            condition="#userId!=null"
     )
     public UserResponse getById(UUID id){
         UserAndCounts userAndCounts = userRepository.findUserAndCountsById(id)
-                .orElseThrow(() -> new UserNotExists("User not found"));
+                .orElseThrow(() -> new UserNotExists("UserProfile not found"));
 
         return userMapper.toResponse(userAndCounts);
     }

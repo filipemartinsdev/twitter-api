@@ -18,7 +18,7 @@ public class DeleteRelationshipUseCase {
 
     public void deleteAllByUserId(UUID id){
         if (!verifyUserUseCase.existsById(id))
-            throw new NotFoundException("User not found");
+            throw new NotFoundException("UserProfile not found");
 
         userRelationshipRepository.deleteAllByUserId(id);
     }

@@ -2,8 +2,9 @@ package com.api.twitter.user.application.mappers;
 
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.user.application.dto.UserAndCounts;
+import com.api.twitter.user.application.dto.UserProfileResponse;
 import com.api.twitter.user.application.dto.UserResponse;
-import com.api.twitter.user.domain.User;
+import com.api.twitter.user.domain.UserProfile;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -41,14 +42,22 @@ public class UserMapper {
                 .build();
     }
 
-
     @Deprecated
-    public UserResponse toResponse(User user){
+    public UserResponse toResponse(UserProfile user){
         var userResponse = UserResponse.builder()
-                .id(user.getId())
+                .id(user.getUserId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .build();
         return userResponse;
+    }
+
+    public UserProfileResponse toProfileResponse(UserProfile user) {
+        return UserProfileResponse.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .description(user.getDescription())
+                .build();
     }
 }

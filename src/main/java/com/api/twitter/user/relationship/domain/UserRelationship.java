@@ -1,8 +1,7 @@
 package com.api.twitter.user.relationship.domain;
 
-import com.api.twitter.user.domain.User;
+import com.api.twitter.user.domain.UserProfile;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,12 +16,12 @@ public class UserRelationship {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follower_id")
-    private User follower;
+    private UserProfile follower;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "following_id")
-    private User following;
+    private UserProfile following;
 
     @Column(name = "created_at")
     private LocalDateTime timestamp;

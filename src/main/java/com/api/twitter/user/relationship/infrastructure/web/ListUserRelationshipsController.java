@@ -21,7 +21,7 @@ public class ListUserRelationshipsController {
     @Autowired
     private ListRelationshipsUseCase listRelationshipsUseCase;
 
-    @GetMapping("/{id}/followers")
+    @GetMapping("/{userId}/followers")
     public ResponseEntity<ApiResponse<PagedResponse<UserResponse>>> getFollowersOfUser(
             @PathVariable UUID id, Pageable pageable
     ){
@@ -32,7 +32,7 @@ public class ListUserRelationshipsController {
                 ));
     }
 
-    @GetMapping("/{id}/following")
+    @GetMapping("/{userId}/following")
     public ResponseEntity<ApiResponse<PagedResponse<UserResponse>>> getFollowingOfUser(
             @PathVariable UUID id,
             Pageable pageable
