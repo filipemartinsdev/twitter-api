@@ -13,21 +13,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 class UserTest {
-    private User userMock1 = new User(
+    private UserProfile userMock1 = new UserProfile(
             UUID.randomUUID(),
             "test",
             "test@gmail.com",
-            "12345",
-            UserRole.USER,
+            null,
+//            UserRole.USER,
             LocalDateTime.now()
     );
 
-    private User userInvalidMock1 = new User(
+    private UserProfile userInvalidMock1 = new UserProfile(
             UUID.randomUUID(),
             "",
             "$%",
-            " ",
-            UserRole.USER,
+            null,
+//            UserRole.USER,
             LocalDateTime.now()
     );
 
@@ -58,18 +58,4 @@ class UserTest {
 //            userInvalidMock1.validateEmail();
 //        });
 //    }
-
-    @Test
-    @DisplayName("Should validate successfully if password is valid")
-    public void validatePasswordTestCase1(){
-        userMock1.validatePassword();
-    }
-
-    @Test
-    @DisplayName("Should throw UserValidationException if password is invalid")
-    public void validatePasswordTestCase2(){
-        assertThrows(UserValidationException.class, () -> {
-            userInvalidMock1.validatePassword();
-        });
-    }
 }

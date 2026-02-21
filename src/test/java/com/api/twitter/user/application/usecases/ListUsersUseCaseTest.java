@@ -1,13 +1,12 @@
 package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.dto.PagedResponse;
-import com.api.twitter.common.model.UserRole;
 import com.api.twitter.user.application.dto.UserAndCounts;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.application.exception.UserNotExists;
 import com.api.twitter.user.application.mappers.UserMapper;
-import com.api.twitter.user.domain.User;
-import com.api.twitter.user.infrastructure.persistence.UserRepository;
+import com.api.twitter.user.domain.UserProfile;
+import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,41 +15,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 
 class ListUsersUseCaseTest {
-    private final User userMock1 = new User(
+    private final UserProfile userMock1 = new UserProfile(
             UUID.randomUUID(),
             "test",
             "test@gmail.com",
-            "12345",
-            UserRole.USER,
-            LocalDateTime.now()
-    );
-
-    private final User userMock2 = new User(
-            UUID.randomUUID(),
-            "test2",
-            "test2@gmail.com",
-            "12345",
-            UserRole.USER,
+            "desc",
             LocalDateTime.now()
     );
 
     private final UserAndCounts userAndCountsMock1 = new UserAndCounts() {
         @Override
         public UUID getId() {
-            return userMock1.getId();
+            return userMock1.getUserId();
         }
 
         @Override
@@ -85,7 +75,7 @@ class ListUsersUseCaseTest {
     };
 
     private UserResponse userResponseMock1 = new UserResponse(
-            userMock1.getId(),
+            userMock1.getUserId(),
             userMock1.getUsername(),
             userMock1.getEmail(),
             0L,
@@ -94,7 +84,7 @@ class ListUsersUseCaseTest {
     );
 
     @Mock
-    private UserRepository userRepository;
+    private UserProfileRepository userRepository;
 
     @Mock
     private UserMapper userMapper;
@@ -106,7 +96,7 @@ class ListUsersUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        mock = MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
@@ -117,34 +107,26 @@ class ListUsersUseCaseTest {
     }
 
     @Test
-    @DisplayName("Should return the user if it exists by id")
+    @DisplayName("Should return the user if it exists by userId")
     void getByIdTestCase1() {
-        User expectedUser = userMock1;
-        Mockito.when(userRepository.findById(expectedUser.getId()))
-                .thenReturn( Optional.of(userMock1));
-        Mockito.when(userRepository.existsById(expectedUser.getId()))
-                .thenReturn( true);
-        Mockito.when(userRepository.findUserAndCountsById(expectedUser.getId()))
+        UserProfile expectedUser = userMock1;
+        Mockito.when(userRepository.findUserAndCountsById(expectedUser.getUserId()))
                 .thenReturn( Optional.of(userAndCountsMock1));
 
         Mockito.when(userMapper.toResponse(Mockito.any(UserAndCounts.class)))
                 .thenReturn(userResponseMock1);
 
-        UserResponse userResponse = listUsersUseCase.getById(expectedUser.getId());
+        UserResponse userResponse = listUsersUseCase.getById(expectedUser.getUserId());
 
-        assertEquals(expectedUser.getId(),  userResponse.id());
+        assertEquals(expectedUser.getUserId(),  userResponse.id());
         assertEquals(expectedUser.getUsername(), userResponse.username());
         assertEquals(expectedUser.getEmail(), userResponse.email());
     }
 
     @Test
-    @DisplayName("Should throw UserNotExists when user does not exist by id")
+    @DisplayName("Should throw UserNotExists when user does not exist by userId")
     void getByIdTestCase2(){
         UUID nonExistingId = UUID.randomUUID();
-        Mockito.when(userRepository.findById(nonExistingId))
-                .thenReturn( Optional.empty());
-        Mockito.when(userRepository.existsById(nonExistingId))
-                .thenReturn( false);
         Mockito.when(userRepository.findUserAndCountsById(nonExistingId))
                 .thenReturn( Optional.empty());
 
@@ -160,117 +142,41 @@ class ListUsersUseCaseTest {
                 List.of(userAndCountsMock1)
         );
 
-        List<UserResponse> userResponseList = new ArrayList<>(
-                List.of(userResponseMock1)
-        );
-
-        PagedResponse<UserResponse> expectedResponse = PagedResponse.<UserResponse>builder()
-                .size(1)
-                .page(1)
-                .totalPages(1)
-                .totalElements(1L)
-                .isLast(true)
-                .content(userResponseList)
-                .build();
-
-        Page<UserAndCounts> page = new Page<UserAndCounts>() {
-            @Override
-            public int getTotalPages() {
-                return 1;
-            }
-
-            @Override
-            public long getTotalElements() {
-                return 1;
-            }
-
-            @Override
-            public <U> Page<U> map(Function<? super UserAndCounts, ? extends U> converter) {
-                return null;
-            }
-
-            @Override
-            public int getNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getSize() {
-                return 1;
-            }
-
-            @Override
-            public int getNumberOfElements() {
-                return 1;
-            }
-
-            @Override
-            public List<UserAndCounts> getContent() {
-                return userList;
-            }
-
-            @Override
-            public boolean hasContent() {
-                return true;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public boolean isFirst() {
-                return true;
-            }
-
-            @Override
-            public boolean isLast() {
-                return true;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Pageable nextPageable() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousPageable() {
-                return null;
-            }
-
-            @Override
-            public Iterator<UserAndCounts> iterator() {
-                return null;
-            }
-        };
+        Page<UserAndCounts> page = new PageImpl<>(userList);
 
         Mockito.when(userRepository.findAllUserAndCounts(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
+        PagedResponse<UserResponse> expectedResponse = PagedResponse.<UserResponse>builder()
+                .size(page.getSize())
+                .page(page.getNumber())
+                .totalPages(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .isLast(page.isLast())
+                .content(List.of(userResponseMock1))
+                .build();
+
+        Mockito.when(userMapper.toPagedUserResponse(page))
+                .thenReturn(expectedResponse);
+
         Pageable pageable = Mockito.mock(Pageable.class);
-        listUsersUseCase.getAll(pageable);
+        PagedResponse<UserResponse> response = listUsersUseCase.getAll(pageable);
 
         Mockito.verify(userRepository, Mockito.times(1))
                 .findAllUserAndCounts(Mockito.any());
+        Mockito.verify(userMapper, Mockito.times(1))
+                .toPagedUserResponse(page);
+
+        assertEquals(expectedResponse, response);
     }
 
     @Test
     @DisplayName("Should return a empty paged response of UserResponse when not exist users")
     void getAllTestCase2() {
+        Page<UserAndCounts> emptyPage = Page.empty();
         Mockito.when(userRepository.findAllUserAndCounts(Mockito.any()))
-                .thenReturn( Page.empty());
-        Mockito.when(userMapper.toPagedUserResponse(Page.empty()))
+                .thenReturn(emptyPage);
+        Mockito.when(userMapper.toPagedUserResponse(emptyPage))
                 .thenReturn(
                         PagedResponse.<UserResponse>builder()
                                 .size(0)
@@ -287,6 +193,8 @@ class ListUsersUseCaseTest {
 
         Mockito.verify(userRepository, Mockito.times(1))
                 .findAllUserAndCounts(Mockito.any());
+        Mockito.verify(userMapper, Mockito.times(1))
+                .toPagedUserResponse(emptyPage);
 
         assertNotNull(response);
 
@@ -301,7 +209,7 @@ class ListUsersUseCaseTest {
     @Test
     @DisplayName("Should return a empty paged response of UserResponse when not exist valid users")
     void queryTestCase1() {
-        Mockito.when(userRepository.findAllUserAndCounts(Mockito.any()))
+        Mockito.when(userRepository.findAllUserAndCountsByUsernameLike(Mockito.any(), Mockito.any()))
                 .thenReturn(Page.empty());
 
         String query = "nonExistingUser";
