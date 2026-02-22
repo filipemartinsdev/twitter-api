@@ -3,7 +3,7 @@ package com.api.twitter.user.application.usecases;
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.user.application.dto.UserAndCounts;
 import com.api.twitter.user.application.dto.UserResponse;
-import com.api.twitter.user.application.exception.UserNotExists;
+import com.api.twitter.user.application.exception.UserNotExistsException;
 import com.api.twitter.user.application.mappers.UserMapper;
 import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ public class ListUsersUseCase {
 
     @Cacheable(
             value = "userById",
-            key = "#userId.toString()",
-            condition="#userId!=null"
+            key = "#id.toString()",
+            condition="#id!=null"
     )
     public UserResponse getById(UUID id){
         UserAndCounts userAndCounts = userRepository.findUserAndCountsById(id)
-                .orElseThrow(() -> new UserNotExists("UserProfile not found"));
+                .orElseThrow(() -> new UserNotExistsException("User not found"));
 
         return userMapper.toResponse(userAndCounts);
     }
@@ -60,7 +60,6 @@ public class ListUsersUseCase {
     @Cacheable(
             value = "userQueryByNumberSizeSort",
             key = "#query + '_' + #pageable.pageNumber + '_' + #pageable.pageSize + '_' + #pageable.sort.toString()",
-
             unless = "#result.content.isEmpty()"
     )
     public PagedResponse<UserResponse> query(String query, Pageable pageable) {
