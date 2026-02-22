@@ -3,7 +3,7 @@ package com.api.twitter.user.application.usecases;
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.user.application.dto.UserAndCounts;
 import com.api.twitter.user.application.dto.UserResponse;
-import com.api.twitter.user.application.exception.UserNotExists;
+import com.api.twitter.user.application.exception.UserNotExistsException;
 import com.api.twitter.user.application.mappers.UserMapper;
 import com.api.twitter.user.domain.UserProfile;
 import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
@@ -124,13 +124,13 @@ class ListUsersUseCaseTest {
     }
 
     @Test
-    @DisplayName("Should throw UserNotExists when user does not exist by userId")
+    @DisplayName("Should throw UserNotExistsException when user does not exist by userId")
     void getByIdTestCase2(){
         UUID nonExistingId = UUID.randomUUID();
         Mockito.when(userRepository.findUserAndCountsById(nonExistingId))
                 .thenReturn( Optional.empty());
 
-        assertThrows(UserNotExists.class, () -> {
+        assertThrows(UserNotExistsException.class, () -> {
             listUsersUseCase.getById(nonExistingId);
         });
     }

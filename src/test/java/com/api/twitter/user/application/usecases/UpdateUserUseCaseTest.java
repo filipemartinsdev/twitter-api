@@ -65,9 +65,9 @@ class UpdateUserUseCaseTest {
         );
 
         UserUpdateRequest request = new UserUpdateRequest(
-                JsonNullable.of("new-user"),
+                Optional.of("new-user"),
                 null,
-                JsonNullable.of("new-desc")
+                Optional.of("new-desc")
         );
 
         UserProfileResponse response = UserProfileResponse.builder()

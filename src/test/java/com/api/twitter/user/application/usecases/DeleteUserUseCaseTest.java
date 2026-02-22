@@ -1,7 +1,7 @@
 package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.events.UserDeletedEvent;
-import com.api.twitter.user.application.exception.UserNotExists;
+import com.api.twitter.user.application.exception.UserNotExistsException;
 import com.api.twitter.user.domain.UserProfile;
 import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -68,12 +68,12 @@ class DeleteUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("Should throw UserNotExists when user does not exist")
+    @DisplayName("Should throw UserNotExistsException when user does not exist")
     void deleteByIdTestCase2() {
         Mockito.when(userRepository.existsById(userMock1.getUserId()))
                 .thenReturn(false);
 
-        assertThrows(UserNotExists.class, () ->
+        assertThrows(UserNotExistsException.class, () ->
                 deleteUserUseCase.deleteById(userMock1.getUserId())
         );
 

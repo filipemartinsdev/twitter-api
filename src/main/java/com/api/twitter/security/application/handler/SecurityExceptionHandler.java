@@ -1,6 +1,6 @@
 package com.api.twitter.security.application.handler;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.security.application.exception.ExpiredTokenException;
 import com.api.twitter.security.application.exception.InvalidTokenException;
 import org.springframework.http.HttpStatus;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class SecurityExceptionHandler {
     @ExceptionHandler(ExpiredTokenException.class)
-    public ResponseEntity<ApiResponse<Void>> expiredTokenHandler(ExpiredTokenException exception){
+    public ResponseEntity<ApiResponseDTO<Void>> expiredTokenHandler(ExpiredTokenException exception){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.fail(exception.getMessage()));
+                .body(ApiResponseDTO.fail(exception.getMessage()));
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<ApiResponse<Void>> invalidTokenHandler(InvalidTokenException exception){
+    public ResponseEntity<ApiResponseDTO<Void>> invalidTokenHandler(InvalidTokenException exception){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.fail(exception.getMessage()));
+                .body(ApiResponseDTO.fail(exception.getMessage()));
     }
 }

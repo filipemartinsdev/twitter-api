@@ -1,7 +1,7 @@
 package com.api.twitter.user.application.usecases;
 
 import com.api.twitter.common.events.UserDeletedEvent;
-import com.api.twitter.user.application.exception.UserNotExists;
+import com.api.twitter.user.application.exception.UserNotExistsException;
 import com.api.twitter.user.infrastructure.persistence.UserProfileRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class DeleteUserUseCase {
     })
     public void deleteById(UUID id){
         if (!userRepository.existsById(id))
-            throw new UserNotExists("UserProfile not found");
+            throw new UserNotExistsException("UserProfile not found");
 
         userRepository.deleteById(id);
         applicationEventPublisher.publishEvent(new UserDeletedEvent(id, this));
