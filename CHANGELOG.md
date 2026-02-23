@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.6.4] - 2026-02-20
+## [2.7.0] - 2026-02-23
+### Feature
+- Documentation with Open API (Swagger) for all endpoints.
+
+- [2.6.4] - 2026-02-20
 ### Patch
 - Fix typo on controllers (path variable userId)
 
