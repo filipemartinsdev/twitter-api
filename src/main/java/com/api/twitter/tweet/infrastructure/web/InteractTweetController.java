@@ -1,9 +1,10 @@
 package com.api.twitter.tweet.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.tweet.application.usecases.InteractTweetUseCase;
 import com.api.twitter.tweet.application.usecases.ViewTweetUseCase;
+import com.api.twitter.tweet.docs.InteractTweetControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/tweets")
-public class InteractTweetController {
+public class InteractTweetController implements InteractTweetControllerDocs {
     @Autowired
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
@@ -24,7 +25,7 @@ public class InteractTweetController {
     private ViewTweetUseCase viewTweetUseCase;
 
     @PostMapping("/{tweetId}/likes")
-    public ResponseEntity<ApiResponse<Void>> likeTweet(@PathVariable UUID tweetId){
+    public ResponseEntity<ApiResponseDTO<Void>> likeTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         interactTweetUseCase.likeTweetAsUser(tweetId, authenticatedUserId);
 
@@ -34,7 +35,7 @@ public class InteractTweetController {
     }
 
     @DeleteMapping("/{tweetId}/likes")
-    public ResponseEntity<ApiResponse<Void>> unlikeTweet(@PathVariable UUID tweetId){
+    public ResponseEntity<ApiResponseDTO<Void>> unlikeTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         interactTweetUseCase.unlikeTweetAsUser(tweetId, authenticatedUserId);
 
@@ -44,7 +45,7 @@ public class InteractTweetController {
     }
 
     @PostMapping("{tweetId}/views")
-    public ResponseEntity<ApiResponse<Void>> viewTweet(@PathVariable UUID tweetId){
+    public ResponseEntity<ApiResponseDTO<Void>> viewTweet(@PathVariable UUID tweetId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         viewTweetUseCase.viewTweetAsUser(tweetId, authenticatedUserId);
 

@@ -1,8 +1,8 @@
-package com.api.twitter.user.docs;
+package com.api.twitter.tweet.docs;
 
 import com.api.twitter.common.dto.ApiResponseDTO;
-import com.api.twitter.user.application.dto.UserProfileResponse;
-import com.api.twitter.user.application.dto.UserUpdateRequest;
+import com.api.twitter.tweet.application.dto.TweetRequest;
+import com.api.twitter.tweet.application.dto.TweetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -11,38 +11,33 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "User")
-public interface UpdateUserControllerDocs {
-
+@Tag(name = "Tweet")
+public interface CreateTweetControllerDocs {
     @SecurityRequirement(name = "bearerAuth")
-    @Operation(
-            summary = "Update authenticated user profile"
-    )
+    @Operation(summary = "Create a new tweet")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "User profile updated successfully",
+                    description = "Tweet created successfully",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiResponseDTO.class),
                             examples = {
-                                    @ExampleObject(value = ResponseExamples.USER_PROFILE_UPDATED_RESPONSE)
+                                    @ExampleObject(value = ResponseExamples.TWEET_RESPONSE)
                             }
                     )
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Invalid request data",
+                    description = "Tweet can't be blank",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiResponseDTO.class),
                             examples = {
-                                    @ExampleObject(value = ResponseExamples.INVALID_USER_UPDATE_REQUEST)
+                                    @ExampleObject(value = ResponseExamples.TWEET_CANT_BE_BLANK)
                             }
                     )
             ),
@@ -50,7 +45,7 @@ public interface UpdateUserControllerDocs {
                     responseCode = "403",
                     description = "User not authenticated",
                     content = @Content
-            )
+            ),
     })
-    public ResponseEntity<ApiResponseDTO<UserProfileResponse>> updateUser(@Valid @RequestBody UserUpdateRequest request);
+    ResponseEntity<ApiResponseDTO<TweetResponse>> createTweet(TweetRequest tweetRequest);
 }

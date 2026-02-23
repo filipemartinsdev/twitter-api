@@ -1,9 +1,10 @@
 package com.api.twitter.user.relationship.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.user.relationship.application.usecases.FollowUserUseCase;
 import com.api.twitter.user.relationship.application.usecases.UnfollowUserUseCase;
+import com.api.twitter.user.relationship.docs.ManageRelationshipControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/users")
-public class ManageRelationshipController {
+public class ManageRelationshipController implements ManageRelationshipControllerDocs {
     @Autowired
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
@@ -24,20 +25,20 @@ public class ManageRelationshipController {
     private UnfollowUserUseCase unfollowUserUseCase;
 
     @PostMapping("/{userId}/followers")
-    public ResponseEntity<ApiResponse<Void>> followUser(@PathVariable UUID userId){
+    public ResponseEntity<ApiResponseDTO<Void>> followUser(@PathVariable UUID userId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         followUserUseCase.execute(authenticatedUserId, userId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ApiResponse.success());
+                .body(ApiResponseDTO.success());
     }
 
     @DeleteMapping("/{userId}/followers")
-    public ResponseEntity<ApiResponse<Void>> unfollowUser(@PathVariable UUID userId){
+    public ResponseEntity<ApiResponseDTO<Void>> unfollowUser(@PathVariable UUID userId){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         unfollowUserUseCase.execute(authenticatedUserId, userId);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
-                .body(ApiResponse.success());
+                .body(ApiResponseDTO.success());
     }
 }

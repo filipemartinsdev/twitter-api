@@ -1,9 +1,10 @@
 package com.api.twitter.user.relationship.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.user.application.dto.UserResponse;
 import com.api.twitter.user.relationship.application.usecases.ListRelationshipsUseCase;
+import com.api.twitter.user.relationship.docs.ListUserRelationshipsControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,29 +15,29 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/users")
-public class ListUserRelationshipsController {
+public class ListUserRelationshipsController implements ListUserRelationshipsControllerDocs {
     @Autowired
     private ListRelationshipsUseCase listRelationshipsUseCase;
 
     @GetMapping("/{userId}/followers")
-    public ResponseEntity<ApiResponse<PagedResponse<UserResponse>>> getFollowersOfUser(
+    public ResponseEntity<ApiResponseDTO<PagedResponse<UserResponse>>> getFollowersOfUser(
             @PathVariable UUID userId, Pageable pageable
     ){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listRelationshipsUseCase.getAllFollowersOfUser(userId, pageable)
                 ));
     }
 
     @GetMapping("/{userId}/following")
-    public ResponseEntity<ApiResponse<PagedResponse<UserResponse>>> getFollowingOfUser(
+    public ResponseEntity<ApiResponseDTO<PagedResponse<UserResponse>>> getFollowingOfUser(
             @PathVariable UUID userId,
             Pageable pageable
     ){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listRelationshipsUseCase.getAllFollowingOfUser(userId, pageable)
                 ));
     }

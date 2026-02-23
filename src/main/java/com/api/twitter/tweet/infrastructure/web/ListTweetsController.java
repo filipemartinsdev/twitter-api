@@ -1,9 +1,11 @@
 package com.api.twitter.tweet.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 import com.api.twitter.tweet.application.usecases.ListTweetsUseCase;
+import com.api.twitter.tweet.docs.ListTweetsControllerDocs;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,42 +19,42 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2")
-public class ListTweetsController {
+public class ListTweetsController implements ListTweetsControllerDocs {
     @Autowired
     private ListTweetsUseCase listTweetsUseCase;
 
     @GetMapping("/tweets/{tweetId}")
-    private ResponseEntity<ApiResponse<TweetResponse>> getTweetById(@PathVariable UUID tweetId){
+    public ResponseEntity<ApiResponseDTO<TweetResponse>> getTweetById(@PathVariable UUID tweetId){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listTweetsUseCase.getById(tweetId)
                 ));
     }
 
     @GetMapping("/tweets")
-    private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllTweets(Pageable pageable){
+    public ResponseEntity<ApiResponseDTO<PagedResponse<TweetResponse>>> getAllTweets(Pageable pageable){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listTweetsUseCase.listAll(pageable)
                 ));
     }
 
     @GetMapping("/tweets/{tweetId}/comments")
-    private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllCommentsOfTweet(@PathVariable UUID tweetId, Pageable pageable){
+    public ResponseEntity<ApiResponseDTO<PagedResponse<TweetResponse>>> getAllCommentsOfTweet(@PathVariable UUID tweetId, Pageable pageable){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listTweetsUseCase.listAllCommentsByTweetId(tweetId, pageable)
                 ));
     }
 
     @GetMapping("/users/{userId}/tweets")
-    private ResponseEntity<ApiResponse<PagedResponse<TweetResponse>>> getAllTweetsOfUser(@PathVariable UUID userId, Pageable pageable){
+    public ResponseEntity<ApiResponseDTO<PagedResponse<TweetResponse>>> getAllTweetsOfUser(@PathVariable UUID userId, Pageable pageable){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success(
+                .body(ApiResponseDTO.success(
                         listTweetsUseCase.listAllTweetsByUserId(userId, pageable)
                 ));
     }

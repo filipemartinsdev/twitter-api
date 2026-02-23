@@ -30,10 +30,7 @@ public class InteractTweetUseCase {
         var tweetLikeId = new TweetLikeId(tweetId, userId);
 
         if (tweetLikeRepository.existsById(tweetLikeId))
-            throw new BadRequestException("UserProfile has already liked this tweet");
-
-        if (tweet.getUser().getUserId().compareTo(userId) == 0)
-            throw new BadRequestException("Can't like your self tweet");
+            throw new BadRequestException("User has already liked this tweet");
 
         TweetLike tweetLike = new TweetLike(
                 tweetLikeId,
@@ -53,10 +50,7 @@ public class InteractTweetUseCase {
         var tweetLikeId = new TweetLikeId(tweetId, userId);
 
         if (!tweetLikeRepository.existsById(tweetLikeId))
-            throw new BadRequestException("UserProfile hasn't liked this tweet yet");
-
-        if (tweet.getUser().getUserId().compareTo(userId) == 0)
-            throw new BadRequestException("Can't unlike your self tweet");
+            throw new BadRequestException("User hasn't liked this tweet yet");
 
         tweetLikeRepository.deleteById(tweetLikeId);
     }

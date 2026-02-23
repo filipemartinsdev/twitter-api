@@ -27,10 +27,10 @@ public class ViewTweetUseCase {
         TweetViewId tweetViewId = new TweetViewId(tweetId, userId);
 
         if (tweetViewRepository.existsById(tweetViewId))
-            throw new BadRequestException("Already viewed this tweet");
+            throw new BadRequestException("User has already viewed this tweet");
 
         Tweet tweet = tweetRepository.findById(tweetId)
-                .orElseThrow(() -> new TweetNotFound("Tweet not exists"));
+                .orElseThrow(() -> new TweetNotFound("Tweet not found"));
 
         if (tweet.getUser().getUserId().compareTo(userId) == 0)
             throw new BadRequestException("Can't view your self tweet");

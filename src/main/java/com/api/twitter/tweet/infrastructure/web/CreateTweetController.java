@@ -1,10 +1,11 @@
 package com.api.twitter.tweet.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.tweet.application.dto.TweetRequest;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 import com.api.twitter.tweet.application.usecases.CreateTweetUseCase;
+import com.api.twitter.tweet.docs.CreateTweetControllerDocs;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/tweets")
-public class CreateTweetController {
+public class CreateTweetController implements CreateTweetControllerDocs {
     @Autowired
     private CreateTweetUseCase createTweetUseCase;
 
@@ -26,13 +27,13 @@ public class CreateTweetController {
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<TweetResponse>> createTweet(@Valid @RequestBody TweetRequest tweetRequest){
+    public ResponseEntity<ApiResponseDTO<TweetResponse>> createTweet(@Valid @RequestBody TweetRequest tweetRequest){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
 
         TweetResponse createdTweet = createTweetUseCase.execute(authenticatedUserId, tweetRequest);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ApiResponse.success(createdTweet));
+                .body(ApiResponseDTO.success(createdTweet));
     }
 }

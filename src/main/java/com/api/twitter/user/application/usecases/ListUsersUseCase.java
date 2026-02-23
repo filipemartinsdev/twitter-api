@@ -26,7 +26,7 @@ public class ListUsersUseCase {
     @Cacheable(
             value = "userById",
             key = "#id.toString()",
-            condition="#id!=null"
+            condition="#id != null"
     )
     public UserResponse getById(UUID id){
         UserAndCounts userAndCounts = userRepository.findUserAndCountsById(id)

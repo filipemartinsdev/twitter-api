@@ -1,8 +1,7 @@
-package com.api.twitter.user.docs;
+package com.api.twitter.security.docs;
 
 import com.api.twitter.common.dto.ApiResponseDTO;
-import com.api.twitter.user.application.dto.UserProfileResponse;
-import com.api.twitter.user.application.dto.UserUpdateRequest;
+import com.api.twitter.security.application.dto.UpdatePasswordRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -12,45 +11,47 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "User")
-public interface UpdateUserControllerDocs {
+@Tag(name = "Authentication")
+public interface UpdateCredentialsControllerDocs {
 
     @SecurityRequirement(name = "bearerAuth")
     @Operation(
-            summary = "Update authenticated user profile"
+            summary = "Update user password"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "User profile updated successfully",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiResponseDTO.class),
-                            examples = {
-                                    @ExampleObject(value = ResponseExamples.USER_PROFILE_UPDATED_RESPONSE)
-                            }
-                    )
+                    description = "Password updated successfully",
+                    content = @Content
             ),
             @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid request data",
+                    responseCode = "404",
+                    description = "Invalid password",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiResponseDTO.class),
                             examples = {
-                                    @ExampleObject(value = ResponseExamples.INVALID_USER_UPDATE_REQUEST)
+                                    @ExampleObject(
+                                            value = """
+                                            {
+                                                "status": "fail",
+                                                "message": "Invalid password"
+                                            }
+                                            """
+                                    )
                             }
                     )
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "User not authenticated",
+                    description = "Forbidden - User not authenticated",
                     content = @Content
             )
     })
-    public ResponseEntity<ApiResponseDTO<UserProfileResponse>> updateUser(@Valid @RequestBody UserUpdateRequest request);
+    ResponseEntity<ApiResponseDTO<Void>> updatePassword(@Valid @RequestBody UpdatePasswordRequest request);
 }

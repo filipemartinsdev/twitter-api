@@ -27,7 +27,7 @@ public class DeleteUserUseCase {
     @Caching(evict = {
             @CacheEvict(value = "usersByPageSizeSort", allEntries = true),
             @CacheEvict(value = "userQueryByNumberSizeSort", allEntries = true),
-            @CacheEvict(value = "userById", key = "#userId.toString()")
+            @CacheEvict(value = "userById", key = "#id.toString()")
     })
     public void deleteById(UUID id){
         if (!userRepository.existsById(id))

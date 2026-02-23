@@ -1,8 +1,9 @@
 package com.api.twitter.user.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.user.application.usecases.DeleteUserUseCase;
+import com.api.twitter.user.docs.DeleteUserControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/users")
-public class DeleteUserController {
+public class DeleteUserController implements DeleteUserControllerDocs {
     @Autowired
     private DeleteUserUseCase deleteUserUseCase;
 
@@ -22,12 +23,12 @@ public class DeleteUserController {
     private GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @DeleteMapping("/me")
-    public ResponseEntity<ApiResponse<Void>> deleteAuthenticatedUser(){
+    public ResponseEntity<ApiResponseDTO<Void>> deleteAuthenticatedUser(){
         UUID authenticatedUserId = getAuthenticatedUserUseCase.getId();
         deleteUserUseCase.deleteById(authenticatedUserId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success());
+                .body(ApiResponseDTO.success());
     }
 }

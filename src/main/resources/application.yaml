@@ -29,3 +29,9 @@ api:
       secret: ${JWT_SECRET:secret}
       issuer: ${JWT_ISSUER:issuer}
       expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
+springdoc:
+  writer-with-default-pretty-printer: true
+  swagger-ui:
+    syntaxHighlight:
+      activated: true

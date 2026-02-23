@@ -1,11 +1,12 @@
 package com.api.twitter.tweet.infrastructure.web;
 
-import com.api.twitter.common.dto.ApiResponse;
+import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.common.dto.AuthenticatedUser;
 import com.api.twitter.common.exception.UnauthorizedException;
 import com.api.twitter.security.application.usecases.GetAuthenticatedUserUseCase;
 import com.api.twitter.tweet.application.usecases.DeleteTweetUseCase;
 import com.api.twitter.tweet.application.usecases.VerifyTweetUseCase;
+import com.api.twitter.tweet.docs.DeleteTweetControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/tweets")
-public class DeleteTweetController {
+public class DeleteTweetController implements DeleteTweetControllerDocs {
     @Autowired
     private DeleteTweetUseCase deleteTweetUseCase;
 
@@ -29,7 +30,7 @@ public class DeleteTweetController {
     private VerifyTweetUseCase verifyTweetUseCase;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteTweetById(@PathVariable UUID id){
+    public ResponseEntity<ApiResponseDTO<Void>> deleteTweetById(@PathVariable UUID id){
         AuthenticatedUser authenticatedUser = getAuthenticatedUserUseCase.execute()
                 .orElseThrow(() -> new UnauthorizedException("User not authenticated"));
         UUID authenticatedUserId = authenticatedUser.id();
@@ -41,6 +42,6 @@ public class DeleteTweetController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.success());
+                .body(ApiResponseDTO.success());
     }
 }
