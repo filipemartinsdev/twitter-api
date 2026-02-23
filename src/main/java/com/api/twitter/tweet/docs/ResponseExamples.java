@@ -1,6 +1,13 @@
 package com.api.twitter.tweet.docs;
 
 public class ResponseExamples {
+    public static final String SUCCESS =
+            """
+            {
+              "status": "success"
+            }
+            """;
+    
     public static final String TWEET_RESPONSE =
             """
             {
@@ -153,6 +160,14 @@ public class ResponseExamples {
             {
                 "status": "fail",
                 "message": "Can't view your self tweet"
+            }
+            """;
+
+    public static final String USER_IS_NOT_OWNER =
+            """
+            {
+              "status": "fail",
+              "message": "Authenticated user is not owner of this tweet"
             }
             """;
 }

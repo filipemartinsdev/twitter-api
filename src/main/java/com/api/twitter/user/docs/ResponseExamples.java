@@ -1,6 +1,13 @@
 package com.api.twitter.user.docs;
 
 public class ResponseExamples {
+    public static final String SUCCESS =
+            """
+            {
+              "status": "success"
+            }
+            """;
+
     public static final String PAGED_USER_RESPONSE =
             """
             {

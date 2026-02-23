@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.7.1] - 2026-02-23
+### Patch
+- Fix inconsistencies on responses from API Docs (Swagger).
+
 ## [2.7.0] - 2026-02-23
 ### Feature
 - Documentation with Open API (Swagger) for all endpoints.

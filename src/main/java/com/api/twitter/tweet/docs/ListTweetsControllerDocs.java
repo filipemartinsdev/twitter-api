@@ -5,6 +5,7 @@ import com.api.twitter.common.dto.PagedResponse;
 import com.api.twitter.tweet.application.dto.TweetResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +76,8 @@ public interface ListTweetsControllerDocs {
                     content = @Content
             )
     })
-    ResponseEntity<ApiResponseDTO<PagedResponse<TweetResponse>>> getAllTweets(Pageable pageable);
+    @PageableAsQueryParam
+    ResponseEntity<ApiResponseDTO<PagedResponse<TweetResponse>>> getAllTweets(@Parameter(hidden = true) Pageable pageable);
 
     @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Get all comments of tweet by ID")
