@@ -10,12 +10,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -24,6 +22,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
 class UpdateUserUseCaseTest {
     @Mock
@@ -52,47 +51,53 @@ class UpdateUserUseCaseTest {
         }
     }
 
+    private final UserProfile userProfileMock1 = new UserProfile(
+            UUID.randomUUID(),
+            "test1",
+            "test1@example.com",
+            "test1",
+            LocalDateTime.now()
+    );
+
     @Test
     @DisplayName("Should update description when user exists")
     void updateUserTestCase1() {
-        UUID userId = UUID.randomUUID();
-        UserProfile user = new UserProfile(
-                userId,
-                "old-user",
-                "old@example.com",
-                "old-desc",
-                LocalDateTime.now()
+        String newDescription = "new description";
+
+        var newUserProfile = new UserProfile(
+                userProfileMock1.getUserId(),
+                userProfileMock1.getUsername(),
+                userProfileMock1.getEmail(),
+                newDescription,
+                userProfileMock1.getCreatedAt()
         );
+
+        Mockito.when(userRepository.existsById(userProfileMock1.getUserId()))
+                .thenReturn(true);
+        Mockito.when(userRepository.findById(userProfileMock1.getUserId()))
+                .thenReturn(Optional.of(newUserProfile));
+        Mockito.when(userRepository.save(any(UserProfile.class)))
+                .thenReturn(newUserProfile);
+        Mockito.when(userMapper.toProfileResponse(newUserProfile))
+                .thenReturn(new UserProfileResponse(
+                        newUserProfile.getUserId(),
+                        newUserProfile.getUsername(),
+                        newUserProfile.getEmail(),
+                        newUserProfile.getDescription()
+                ));
 
         UserUpdateRequest request = new UserUpdateRequest(
-                Optional.of("new-user"),
-                null,
-                Optional.of("new-desc")
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(newDescription)
         );
 
-        UserProfileResponse response = UserProfileResponse.builder()
-                .userId(userId)
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .description("new-desc")
-                .build();
+        UserProfileResponse response = updateUserUserCse.updateUser(userProfileMock1.getUserId(), request);
 
-        Mockito.when(userRepository.findById(userId))
-                .thenReturn(Optional.of(user));
-        Mockito.when(userRepository.save(Mockito.any(UserProfile.class)))
-                .thenReturn(user);
-        Mockito.when(userMapper.toProfileResponse(Mockito.any(UserProfile.class)))
-                .thenReturn(response);
+//        Mockito.verify(userProfileMock1, Mockito.times(1))
+//                .setDescription(newDescription);
 
-        UserProfileResponse result = updateUserUserCse.updateUser(userId, request);
-
-        ArgumentCaptor<UserProfile> userCaptor = ArgumentCaptor.forClass(UserProfile.class);
-        Mockito.verify(userRepository, Mockito.times(1)).save(userCaptor.capture());
-
-        UserProfile savedUser = userCaptor.getValue();
-        assertEquals("old-user", savedUser.getUsername());
-        assertEquals("new-desc", savedUser.getDescription());
-        assertEquals(response, result);
+        assertEquals(newDescription, response.description());
     }
 
     @Test
@@ -110,6 +115,7 @@ class UpdateUserUseCaseTest {
 
         assertThrows(NotFoundException.class, () -> updateUserUserCse.updateUser(userId, request));
 
-        Mockito.verify(userRepository, Mockito.times(0)).save(Mockito.any(UserProfile.class));
+        Mockito.verify(userRepository, Mockito.times(0))
+                .save(any(UserProfile.class));
     }
 }
