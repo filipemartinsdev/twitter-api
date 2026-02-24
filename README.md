@@ -124,7 +124,7 @@ Seguindo esse padrão, têm-se os seguintes módulos:
 
 ### Database
 
-A modelagem foi feito em um banco relacional.
+A modelagem foi feita em um banco relacional.
 
 <img src="images/database.png" height="460pt">
 
