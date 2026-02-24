@@ -1,5 +1,4 @@
 <br>
-<br>
 
 <div align="center">
 <img src="images/twitter-api.png" alt="Logo" width="160pt">
