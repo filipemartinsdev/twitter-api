@@ -136,8 +136,8 @@ A modelagem foi feita em um banco relacional.
   - [x] User roles
 - [x] Database Migrations
 - [x] Testes unitários (em progresso)
-- [ ] Documentação (em progresso)
-  - [ ] API 
+- [x] Documentação (em progresso)
+  - [x] API 
   - [ ] Projeto
 - [x] Cache (Redis)
 - [x] Imagem Docker
