@@ -39,6 +39,32 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
 - PostgreSQL / H2 Database / Redis
 - Docker/Docker compose
 
+````bash
+     178 text files.
+     172 unique files.                                          
+      16 files ignored.
+
+github.com/AlDanial/cloc v 2.06  T=0.07 s (2559.9 files/s, 107037.9 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Java                           121            727             50           4434
+XML                             14              0              0            604
+Bourne Shell                     1             32             52            211
+Markdown                         3             76              0            202
+Maven                            1              8              0            175
+DOS Batch                        1             24              0            165
+YAML                             6             15              4            164
+SQL                             21             15              0            107
+HTML                             1             16              0             89
+Dockerfile                       1              5              0             11
+Properties                       1              0              0              3
+Text                             1              0              0              3
+-------------------------------------------------------------------------------
+SUM:                           172            918            106           6168
+-------------------------------------------------------------------------------
+````
+
 ## Features
 
 - [x] Autenticação
