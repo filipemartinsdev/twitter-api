@@ -15,8 +15,6 @@ API para gerenciar um mini twitter
 
 </div>
 
-> ⚙️ Em contrução 
-
 ## Sobre
 
 Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean Architecture**.
