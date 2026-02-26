@@ -44,7 +44,6 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
      172 unique files.                                          
       16 files ignored.
 
-github.com/AlDanial/cloc v 2.06  T=0.07 s (2559.9 files/s, 107037.9 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
