@@ -29,13 +29,11 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
     - Spring OpenAPI (Swagger)
     - Spring Modulith
 - Lombok
-- JWT
-- JUnit
-- Mockito
+- JUnit & Mockito
 - SQL
 - Flyway
 - PostgreSQL / H2 Database / Redis
-- Docker/Docker compose
+- Docker & Docker compose
 
 ````bash
      178 text files.
