@@ -36,27 +36,21 @@ Projeto desenvolvido seguindo princípios de **Domain Driven Design** e **Clean 
 - Docker & Docker compose
 
 ````bash
-     178 text files.
-     172 unique files.                                          
-      16 files ignored.
+src/
 
+148 text files.
+     148 unique files.                                          
+       2 files ignored.
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 Java                           121            727             50           4434
-XML                             14              0              0            604
-Bourne Shell                     1             32             52            211
-Markdown                         3             76              0            202
-Maven                            1              8              0            175
-DOS Batch                        1             24              0            165
-YAML                             6             15              4            164
 SQL                             21             15              0            107
 HTML                             1             16              0             89
-Dockerfile                       1              5              0             11
-Properties                       1              0              0              3
-Text                             1              0              0              3
+YAML                             3              9              0             75
+XML                              2              0              0             22
 -------------------------------------------------------------------------------
-SUM:                           172            918            106           6168
+SUM:                           148            767             50           4727
 -------------------------------------------------------------------------------
 ````
 
