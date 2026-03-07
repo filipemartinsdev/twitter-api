@@ -3,7 +3,6 @@ package com.api.twitter.security.application.usecases;
 import com.api.twitter.security.application.dto.TokenResponse;
 import com.api.twitter.security.application.dto.UserLoginRequest;
 import com.api.twitter.security.domain.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,7 @@ public class LoginUseCase {
     }
 
     public TokenResponse loginUserAndGetToken(UserLoginRequest userLoginRequest){
-        var userPassToken = new UsernamePasswordAuthenticationToken(userLoginRequest.username(), userLoginRequest.password());
+        var userPassToken = new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword());
         var auth = authenticationManager.authenticate(userPassToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
 

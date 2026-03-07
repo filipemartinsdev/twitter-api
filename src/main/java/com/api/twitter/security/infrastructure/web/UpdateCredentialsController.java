@@ -28,7 +28,7 @@ public class UpdateCredentialsController implements UpdateCredentialsControllerD
          AuthenticatedUser userAuth = getAuthenticatedUserUseCase.execute()
                 .orElseThrow(() -> new UnauthorizedException("User not authenticated"));
 
-        updateUserCredentialsUseCase.updatePassword(userAuth.id(), request.password());
+        updateUserCredentialsUseCase.updatePassword(userAuth.id(), request.getPassword());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
