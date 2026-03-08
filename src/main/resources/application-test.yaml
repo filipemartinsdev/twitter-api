@@ -25,3 +25,10 @@ springdoc:
     enabled: false
   swagger-ui:
     enabled: false
+
+api:
+  security:
+    token:
+      secret: secret
+      issuer: issuer
+      expiration-seconds: 3600

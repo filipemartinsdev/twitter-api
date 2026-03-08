@@ -2,36 +2,5 @@ server:
   port: ${PORT:8080}
 
 spring:
-  application:
-    name: twitter-api
-    title: "Twitter API"
-    version: ${APP_VERSION:"x.x.x"}
-    url: ${SERVER_URL:http://localhost:8080/}
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  cache:
-    type: REDIS
-
-  data:
-    redis:
-      url: ${REDIS_URL:redis://localhost:6379}
-    web:
-      pageable:
-        max-page-size: 50
-
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET:secret}
-      issuer: ${JWT_ISSUER:issuer}
-      expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
-
-springdoc:
-  writer-with-default-pretty-printer: true
-  swagger-ui:
-    syntaxHighlight:
-      activated: true
+  profiles:
+    active: ${ACTIVE_PROFILE:test}
