@@ -3,11 +3,12 @@ spring:
     title: "Twitter API"
     version: ${APP_VERSION:"x.x.x"}
     url: ${SERVER_URL:http://localhost:8080/}
+
   datasource:
     url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
     username: test
     password: test
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: 'create-drop'
@@ -29,6 +30,6 @@ springdoc:
 api:
   security:
     token:
-      secret: secret
-      issuer: issuer
+      secret: "secret"
+      issuer: "issuer"
       expiration-seconds: 3600

@@ -1,12 +1,11 @@
 package com.api.twitter.security.configuration;
 
-import com.api.twitter.security.domain.service.UserCredentialsService;
 import com.api.twitter.security.domain.service.TokenService;
+import com.api.twitter.security.domain.service.UserCredentialsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +16,13 @@ import java.io.IOException;
 
 @Component
 public class SecurityAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
     private TokenService tokenService;
-
-    @Autowired
     private UserCredentialsService userCredentialsService;
+
+    public SecurityAuthenticationFilter(TokenService tokenService, UserCredentialsService userCredentialsService) {
+        this.tokenService = tokenService;
+        this.userCredentialsService = userCredentialsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

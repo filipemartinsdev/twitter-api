@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+@Getter
 @Service
 public class JWTService implements TokenService {
     @Value(value = "${api.security.token.secret}")
