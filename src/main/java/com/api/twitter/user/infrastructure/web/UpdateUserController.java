@@ -11,8 +11,10 @@ import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v2/users")
@@ -33,8 +35,7 @@ public class UpdateUserController implements UpdateUserControllerDocs {
 
     @PatchMapping("/me")
     public ResponseEntity<ApiResponseDTO<UserProfileResponse>> updateUser(@Valid @RequestBody UserUpdateRequest request){
-        var authUser = getAuthenticatedUserUseCase.execute()
-                .orElseThrow(() -> new UsernameNotFoundException("Authenticated user not found"));
+        var authUser = getAuthenticatedUserUseCase.execute();
         var updatedUserProfile = updateUserUseCase.updateUser(authUser.id(), request);
 
         eventPublisher.publishEvent(new UserProfileUpdatedEvent(
