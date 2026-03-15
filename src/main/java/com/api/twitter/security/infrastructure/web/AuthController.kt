@@ -22,24 +22,22 @@ class AuthController(
     private val registerUseCase: RegisterUserCredentialsUseCase
 ) : AuthControllerDocs {
     @PostMapping("/login")
-    override fun login(@RequestBody @Valid userLoginRequest: @Valid UserLoginRequest): ResponseEntity<ApiResponseDTO<TokenResponse?>?> {
+    override fun login(@RequestBody @Valid userLoginRequest: UserLoginRequest): ResponseEntity<ApiResponseDTO<TokenResponse>> {
         val tokenResponse = loginUseCase.loginUserAndGetToken(userLoginRequest)
-
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body<ApiResponseDTO<TokenResponse?>?>(ApiResponseDTO.success<TokenResponse?>(tokenResponse))
+            .body(ApiResponseDTO.success(tokenResponse))
     }
 
     @PostMapping("/register")
-    override fun register(@RequestBody @Valid userRegisterRequest: @Valid UserRegisterRequest): ResponseEntity<Void?> {
+    override fun register(@RequestBody @Valid userRegisterRequest: UserRegisterRequest): ResponseEntity<Void> {
         registerUseCase.execute(
             userRegisterRequest.username,
             userRegisterRequest.email,
             userRegisterRequest.password
         )
-
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .build<Void?>()
+            .build()
     }
 }

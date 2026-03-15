@@ -9,6 +9,7 @@ services:
     volumes:
       - maven-cache:/root/.m2
     environment:
+      - PORT=${PORT}
       - APP_VERSION
       - SERVER_URL
       - JWT_SECRET=${JWT_SECRET}

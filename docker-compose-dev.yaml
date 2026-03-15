@@ -2,7 +2,7 @@ services:
   core:
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - ${PORT}
     depends_on:
       postgres:
         condition: service_started
@@ -14,6 +14,7 @@ services:
     volumes:
       - maven-cache:/root/.m2
     environment:
+      - PORT=${PORT}
       - APP_VERSION
       - SERVER_URL
       - JWT_SECRET=${JWT_SECRET}
