@@ -1,8 +1,9 @@
 services:
   core:
+    container_name: twitter-api-core
     restart: unless-stopped
     ports:
-      - ${PORT}
+      - ${PORT}:8080
     depends_on:
       postgres:
         condition: service_started
@@ -26,6 +27,7 @@ services:
       - SPRING_DATA_REDIS_URL=redis://redis:6379
 
   redis:
+    container_name: twitter-api-redis
     image: redis:7-alpine
     restart: unless-stopped
     ports:
@@ -35,6 +37,7 @@ services:
 #    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
 
   postgres:
+    container_name: twitter-api-postgresql
     image: postgres:15-alpine
     restart: unless-stopped
     ports:
