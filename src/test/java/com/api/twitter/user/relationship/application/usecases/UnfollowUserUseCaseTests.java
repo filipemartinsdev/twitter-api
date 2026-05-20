@@ -34,6 +34,7 @@ class UnfollowUserUseCaseTests {
         when(userRelationshipRepository.existsByFollowerUserIdAndFollowingUserId(followerId, followingId))
                 .thenReturn(true);
         when(verifyUserUseCase.existsById(followerId)).thenReturn(true);
+        when(verifyUserUseCase.existsById(followingId)).thenReturn(true);
         doNothing().when(userRelationshipRepository).deleteByFollowerUserIdAndFollowingUserId(followerId, followingId);
 
         // When
@@ -41,7 +42,8 @@ class UnfollowUserUseCaseTests {
 
         // Then
         verify(userRelationshipRepository).existsByFollowerUserIdAndFollowingUserId(followerId, followingId);
-        verify(verifyUserUseCase, atLeast(1)).existsById(followerId);
+        verify(verifyUserUseCase).existsById(followerId);
+        verify(verifyUserUseCase).existsById(followingId);
         verify(userRelationshipRepository).deleteByFollowerUserIdAndFollowingUserId(followerId, followingId);
     }
 
