@@ -1,4 +1,4 @@
-package com.api.twitter.application.handler;
+package com.api.twitter.handler;
 
 import com.api.twitter.common.dto.ApiResponseDTO;
 import com.api.twitter.common.exception.BadRequestException;

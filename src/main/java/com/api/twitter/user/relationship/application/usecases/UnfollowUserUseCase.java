@@ -29,7 +29,7 @@ public class UnfollowUserUseCase {
 
         if (
                 !verifyUserUseCase.existsById(followerId) ||
-                !verifyUserUseCase.existsById(followerId)
+                !verifyUserUseCase.existsById(followingId)
         ){
             throw new NotFoundException("UserProfile not found");
         }

@@ -1,4 +1,4 @@
-package com.api.twitter.cache;
+package com.api.twitter.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

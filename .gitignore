@@ -1,5 +1,7 @@
 .env
-AGENT.md
+
+.agent
+AGENTS.md
 
 HELP.md
 target/

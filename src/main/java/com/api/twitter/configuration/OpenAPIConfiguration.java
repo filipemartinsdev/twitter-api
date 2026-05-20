@@ -1,4 +1,4 @@
-package com.api.twitter.application.configuration;
+package com.api.twitter.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
